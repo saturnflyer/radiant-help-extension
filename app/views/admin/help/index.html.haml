@@ -1,0 +1,29 @@
+%h1 
+  = Radiant::Config['admin.title'] + " Help"
+%h2 Basics
+%ol
+  %li 
+    %h3 Organizing and Creating Pages
+    %p Pages are organized in a parent/child relationship.
+    %p That means that if you want an "About Us" section on your website and you want to have a page for each member of your staff, each staff page would be a 'child' of the "About Us" page.
+  %li 
+    %h3 Editing Pages
+    %ol
+      %li 
+        %h4
+          Filter
+      %li 
+        %h4
+          Available Tags
+      %li 
+        %h4
+          Layout
+      %li 
+        %h4
+          Page Type
+      %li 
+        %h4
+          Status
+%h2 Extensions
+- @extensions.each do |e|
+  = e.name
