@@ -1,5 +1,33 @@
 = Help
 
-This extension provides documentation for Radiant and creates the 'helps' table into which other extensions may provide their help information.
+This extension provides documentation for Radiant and any registered extensions.
 
-Created by Saturn Flyer http://www.saturnflyer.com
+Installing Help is as easy as any other Radiant extension. Drop it into your vendor/extensions directory and:
+
+rake radiant:extensions:help:migrate
+
+The Help extension creates the 'helpful_extensions' and 'helps' tables into which other extensions may provide their documentation. Once the extension is installed, you must ensure that your application will load the Help extension before loading any registered extensions. To do so, edit your config/environment.rb to load Help first:
+
+Radiant::Initializer.run do |config|
+...
+	config.extensions = [ :help, :all ] 
+...
+end
+
+== Extensions using Help
+
+If you're building an extension that takes advantage of Help, you can register your help information in the database.
+
+HelpfulExtension.register(:name => 'Featured_Pages', :author_name => 'Saturn Flyer', :author_url => 'http://www.saturnflyer.com')
+
+The :name that you choose will be used in the url, so using an underscore in place of a space may make more attractive URLs. Once your HelpfulExtension is registered, you can add your help documentation to the database and it will appear in the Help tab of the admin interface:
+
+Help.create(:topic => 'Marking Featured Pages', :description => 'You can select which pages you would like to feature by visiting the edit screen for the desired page and selecting the Featured Page checkbox before saving the page.')
+
+Help views are currently processed in HAML, so you can enter information into the description that HAML will understand. See http://haml.hamptoncatlin.com/docs/rdoc/classes/Haml.html for more info.
+
+You may unregister your extension (thereby deleting all help information in the database) by using:
+
+HelpfulExtension.unregister('Featured_Pages')
+
+Built by Saturn Flyer http://www.saturnflyer.com

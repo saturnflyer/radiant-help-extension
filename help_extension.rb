@@ -1,5 +1,5 @@
 # Uncomment this if you reference any of your controllers in activate
-# require_dependency 'application'
+require_dependency 'application'
 
 class HelpExtension < Radiant::Extension
   version "1.0"
@@ -9,8 +9,7 @@ class HelpExtension < Radiant::Extension
   define_routes do |map|
     map.with_options :controller => 'admin/help' do |help|
       help.help 'admin/help', :action => 'index'
-      help.connect 'admin/help/:action/:topic', :action => 'show'
-      help.connect 'admin/help/:action', :controller => 'admin/help'
+      help.connect 'admin/help/:extension_name', :action => 'show'
     end
   end
   

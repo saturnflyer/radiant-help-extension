@@ -1,0 +1,3 @@
+-[:version,:description,:url].each do |method|
+  -if @sought_constant.respond_to?(method)
+    %p= "#{@sought} <strong>#{method}</strong> is: #{@sought_constant.send(method)}"

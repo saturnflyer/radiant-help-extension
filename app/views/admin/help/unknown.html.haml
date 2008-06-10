@@ -1,0 +1,9 @@
+- if Object.const_defined?(@sought.to_sym)
+  %h1= @sought
+  %p= "It appears that do you have #{@sought} installed, but I can't find any documentation for you. Sorry."
+  -[:version,:description,:url].each do |method|
+    -if @sought_constant.respond_to?(method)
+      %p= "#{@sought} <strong>#{method}</strong> is: #{@sought_constant.send(method)}"
+- else
+  %h1= "#{@sought}?"
+  %p I can't find any information about that. Perhaps you typed something incorrectly in the url

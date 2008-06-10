@@ -2,10 +2,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Help do
   before(:each) do
-    @help = Help.new
+    @help = Help.new(:name => 'TestExtension')
   end
 
-  it "should be valid" do
-    @help.should be_valid
+  it "requires a name" do
+    @help.name = nil
+    @help.should_not be_valid
   end
 end

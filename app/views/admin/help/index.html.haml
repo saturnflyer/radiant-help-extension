@@ -1,29 +1,42 @@
+- content_for :page_css do
+  :sass
+    .MainTopics
+      ol
+        list-style-position: inside
+        padding: 0
+
 %h1 
   = Radiant::Config['admin.title'] + " Help"
-%h2 Basics
-%ol
-  %li 
-    %h3 Organizing and Creating Pages
-    %p Pages are organized in a parent/child relationship.
-    %p That means that if you want an "About Us" section on your website and you want to have a page for each member of your staff, each staff page would be a 'child' of the "About Us" page.
-  %li 
-    %h3 Editing Pages
-    %ol
-      %li 
-        %h4
-          Filter
-      %li 
-        %h4
-          Available Tags
-      %li 
-        %h4
-          Layout
-      %li 
-        %h4
-          Page Type
-      %li 
-        %h4
-          Status
-%h2 Extensions
-- @extensions.each do |e|
-  = e.name
+.MainTopics
+  %h2 Basics
+  %ol
+    %li 
+      %h3 Organizing and Creating Pages
+      %p Pages are organized in a parent/child relationship.
+      %p That means that if you want an "About Us" section on your website and you want to have a page for each member of your staff, each staff page would be a 'child' of the "About Us" page.
+    %li 
+      %h3 Editing Pages
+      %ol
+        %li 
+          %h4 Filter
+        %li 
+          %h4 Available Tags
+        %li 
+          %h4 Layout
+        %li 
+          %h4 Page Type
+        %li 
+          %h4 Status
+  - unless @extensions.blank?
+    %h2 Extensions
+    - @extensions.each do |e|
+      %h3
+        = link_to e.name, (help_url() + '/' + e.name)
+      = render :partial => 'details', :locals => {:extension => e}
+
+:javascript
+  var setup = function(){
+    
+  }
+  Event.observe(window, 'load', setup);
+  

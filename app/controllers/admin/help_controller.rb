@@ -1,9 +1,21 @@
 class Admin::HelpController < ApplicationController
+  include ActiveSupport::CoreExtensions::String::Inflections
+  
   def index
-    @extensions = Radiant::ExtensionMeta.find(:all)
+    @extensions = HelpfulExtension.find(:all)
   end
   
   def show
-    @help = Help.find_by_topic(params[:topic])
+    @sought = params[:extension_name].camelize
+    @sought_constant = @sought.constantize
+    @extension = HelpfulExtension.find_by_name(@sought)
+    if @extension.nil?
+      render :action => 'unknown'
+    end
+  rescue NameError
+    render :action => 'unknown'
+  end
+  
+  def unknown
   end
 end
