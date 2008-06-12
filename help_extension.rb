@@ -8,8 +8,8 @@ class HelpExtension < Radiant::Extension
   
   define_routes do |map|
     map.with_options :controller => 'admin/help' do |help|
-      help.help 'admin/help', :action => 'index'
-      help.connect 'admin/help/:extension_name', :action => 'show'
+      help.help 'admin/help', :action => 'index', :conditions => {:method => :get}
+      help.connect 'admin/help/:extension_name', :action => 'show', :conditions => {:method => :get}
     end
   end
   
