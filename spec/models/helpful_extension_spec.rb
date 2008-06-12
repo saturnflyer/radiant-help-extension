@@ -10,8 +10,12 @@ describe HelpfulExtension do
     @helpful_extension.should_not be_valid
   end
   
-  describe "when registering in the database with HelpfulExtension.register"
-    it "should raise a HelpfulExtension::DetailsError without a name"
+  describe "when registering in the database with HelpfulExtension.register" do
+    it "should raise a HelpfulExtension::DetailsError without a name" do
+      lambda {
+        @ext = HelpfulExtension.register()
+      }.should raise_error(HelpfulExtension::DetailsError)
+    end
     
     it "should accept author name"
     
@@ -20,13 +24,11 @@ describe HelpfulExtension do
     it "should reject other attributes with a HelpfulExtension::DetailsError"
   end
   
-  describe "registered in the database"
+  describe "registered in the database" do
     before(:each) do
       @helpful_extension.save!
     end
   
-    it "should unregister an extension by name with HelpfulExtension.unregister" do
-    
-    end
+    it "should unregister an extension by name with HelpfulExtension.unregister"
   end
 end
