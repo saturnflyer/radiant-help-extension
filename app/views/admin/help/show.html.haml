@@ -2,12 +2,8 @@
   = @extension.name
 = render :partial => 'details', :locals => {:extension => @extension}
 
-- if !@extension.helps.blank?
-  %ul
-  - @extension.helps.each do |help|
-    %li
-      %h3= help.topic
-      %p= help.description
+- unless @helps.blank?
+  = help_tree_for(@helps)
 - else
   %p No help information is provided at this time.
   = render :partial => 'hard_coded_details'

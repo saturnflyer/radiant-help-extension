@@ -18,7 +18,11 @@ end
 
 If you're building an extension that takes advantage of Help, you can register your help information in the database.
 
-HelpfulExtension.register(:name => 'Featured_Pages', :author_name => 'Saturn Flyer', :author_url => 'http://www.saturnflyer.com')
+HelpfulExtension.register(:name => 'Featured_Pages', :author_name => 'Saturn Flyer', :author_contact => 'http://www.saturnflyer.com')
+
+Or Just
+
+HelpfulExtension.register(:name => 'Featured_Pages')
 
 The :name that you choose will be used in the url, so using an underscore in place of a space may make more attractive URLs. Once your HelpfulExtension is registered, you can add your help documentation to the database and it will appear in the Help tab of the admin interface:
 
