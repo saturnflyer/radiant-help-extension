@@ -29,7 +29,7 @@
           :margin 0 0 10px
 
 %h1 
-  = Radiant::Config['admin.title'] + " Help"
+  = @name + " Help"
 .Help
   - render_region :main do |main|
     = main.render_region :introduction

@@ -2,6 +2,7 @@ class Admin::HelpController < ApplicationController
   include ActiveSupport::CoreExtensions::String::Inflections
   
   def index
+    @name ||= Radiant::Config['admin.title']
     @extensions = HelpfulExtension.find(:all)
   end
   
