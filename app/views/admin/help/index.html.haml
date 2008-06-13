@@ -31,15 +31,17 @@
 %h1 
   = @name + " Help"
 .Help
-  - render_region :main do |main|
-    = main.render_region :introduction
-    .MainTopics
+  .MainTopics
+    - render_region :main do |main|
+      = main.render_region :introduction
       = main.render_region :organizing
       = main.render_region :editing 
       
   - unless @extensions.blank?
     .Extensions
       %h2 Additional Features
+      - render_region :additional do |additional|
+        = additional.render_region :features_introduction
       - @extensions.each do |e|
         %h3
           = link_to e.name, (help_url() + '/' + e.name)

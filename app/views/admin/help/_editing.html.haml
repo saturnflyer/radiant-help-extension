@@ -11,6 +11,18 @@
 %p Breadcrumbs trace your path from the home page to where your are. If you're on the "Management Team" page, for example, your breadcrumbs might look like this: Home > About Us > Management Team
 %p The Breadcrumb field allows you to edit the text that will be displayed if and when your website uses breadcrumbs.
 %h3 Filter
+- render_region :filter do |filter|
+  - filter.filter_basics do
+    %p The filter that you select is used to process the text that you enter. That means that you don't need to write HTML for it to show up properly on your website. 
+    %p 
+      The filters provided for you are:
+      = @filters.collect(&:filter_name).join(', ')
+    %p To get more information about these text filters:
+    %ol
+      %li go to a page edit screen and select a filter
+      %li click on the "Filter" link next to the Filter selection
+      %li scroll through the documentation that appears to find out more about using your selected Filter.
+    %p If you ever need help with formatting your text, the information is right where you need it.
 %h3 Available Tags
 %h3 Layout
 %h3 Page Type
