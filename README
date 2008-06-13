@@ -16,7 +16,11 @@ end
 
 == Extensions using Help
 
-If you're building an extension that takes advantage of Help, you can register your help information in the database.
+If you're building an extension that takes advantage of Help, there are 2 ways to provide help to your users: database registered help, and partial injection based help.
+
+=== Database Registered Help
+
+Registering your help documentation in the database presents your information in a list of "Additional Features." You can register your help information in the database with:
 
 HelpfulExtension.register()
 
@@ -32,5 +36,18 @@ Help views are currently processed in HAML, so you can enter information into th
 You may unregister your extension (thereby deleting all help information in the database) by using:
 
 HelpfulExtension.unregister('Featured_Pages')
+
+=== Partial Injection Based Help
+
+You may inject partials into the interface by adding code such this into your extension's activate method:
+
+    admin.help.index.add :main, "client_welcome", :before => "introduction"
+
+* "admin.help.index" refers to the main help page (the help index) and ".add" is called to add information to the section provided in the next argument. 
+* ":main" is the argument that specifies which section will receive your partial. 
+* "client_welcome" is the partial that you want to add and should be located in your extension directory app/views/admin/help/_client_welcome.html.haml
+* :before => "introduction" will place your partial before the introduction region (or you could do :after). This is optional, and if left out, your partial will be appended to the ":main" section.
+
+For a list of all of the regions provided by Help, see help_extension.rb around line 36.
 
 Built by Saturn Flyer http://www.saturnflyer.com

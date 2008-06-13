@@ -1,5 +1,7 @@
 # Uncomment this if you reference any of your controllers in activate
 require_dependency 'application'
+# You'll need this if you are going to add regions into your extension interface.
+require 'ostruct'
 
 class HelpExtension < Radiant::Extension
   version "1.0"
@@ -15,10 +17,32 @@ class HelpExtension < Radiant::Extension
   
   def activate
     admin.tabs.add "Help", "/admin/help", :after => "Layouts", :visibility => [:all]
+    
+    # This adds information to the Radiant interface. In this extension, we're dealing with "help" views
+    # so :help is an attr_accessor. If you're creating an extension for tracking moons and stars, you might
+    # put attr_accessor :moon, :star
+    Radiant::AdminUI.class_eval do
+      attr_accessor :help
+    end
+    # initialize regions for help (which we created above)
+    admin.help = load_default_help_regions
   end
   
   def deactivate
-    # admin.tabs.remove "Help"
+  end
+  
+  private
+  
+  # This is where we define all of the regions to be used in the views and partials
+  def load_default_help_regions
+    returning OpenStruct.new do |help|
+      help.index = Radiant::AdminUI::RegionSet.new do |index|
+        index.main.concat %w{introduction organizing editing}
+      end
+      help.show = Radiant::AdminUI::RegionSet.new do |show|
+        # show.
+      end
+    end
   end
   
 end

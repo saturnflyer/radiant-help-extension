@@ -1,77 +1,42 @@
 - content_for :page_css do
   :sass
     .Help
-      overflow: hidden
-      min-width: 900px
+      :overflow hidden
+      :min-width 900px
       .Extensions
-        background: #eee
-        float: right
-        width: 38%
+        :background #eee
+        :float right
+        :width 38%
         *
-          margin: 0 10px
+          :margin 0 10px
         * *
-          margin: 0
+          :margin 0
       .MainTopics
-        float: left
-        width: 60%
+        :float left
+        :width 60%
         *
-          margin: 0
+          :margin 0
         h2
-          font-size: 1.4em
+          :font-size 1.4em
         h3
-          margin-bottom: 10px
+          :margin-bottom 10px
         h4
-          color: #666
-          border-bottom: 1px solid #666
-          padding-bottom: 2px
+          :color #666
+          :border-bottom 1px solid #666
+          :padding-bottom 2px
         p
-          color: #333
-          margin: 0 0 10px
-        ol
-          list-style-position: inside
-          padding: 0
-          margin: 0
-          li
-            list-style: none
-            margin: 0
-            padding: 0
-            back
+          :color #333
+          :margin 0 0 10px
 
 %h1 
   = Radiant::Config['admin.title'] + " Help"
 .Help
-  .MainTopics
-    %h2 The Basics
-    %ol
-      %li 
-        %h3 Organizing and Creating Pages
-        %p Pages are organized in a parent/child relationship.
-        %p That means that if you want an "About Us" section on your website and you want to have a page for each member of your staff, each staff page would be a 'child' of the "About Us" page.
-      %li 
-        %h3 Editing Pages
-        %ol
-          %li 
-            %h4 Page Details
-            %p Each page has information that is used when your pages are generated. When you type your Page Title, the page Slug and Breadcrumb are automatically typed for you (click the 'More' link below the title to see these details). The slug is arguably the most important of these because it determines where your page will be found when visitors browse your website.
-            %h5 What is the Slug? 
-            %p It's the smallest part of the page URL.
-            %p If you want your "About Us" page to be found in a location such as yoursite.com/about, then the Slug for your "About Us" page is "about".
-            %p Likewise, if the "About Us" page has any children, such as a "Management Team" page, then the location of that page might be yoursite.com/about/management-team. In this case, the Slug for the "Management Team" page is "management-team".
-            %h5 Why do I need a Slug?
-            %p You may not want to make changes to it, but if you do you may make your "About Us" page available at yoursite.com/about or yoursite.com/about-us or yoursite.com/allaboutus... It's up to you.
-            %h5 Breadcrumb
-            %p Breadcrumbs trace your path from the home page to where your are. If you're on the "Management Team" page, for example, your breadcrumbs might look like this: Home > About Us > Management Team
-            %p The Breadcrumb field allows you to edit the text that will be displayed if and when your website uses breadcrumbs.
-          %li 
-            %h4 Filter
-          %li 
-            %h4 Available Tags
-          %li 
-            %h4 Layout
-          %li 
-            %h4 Page Type
-          %li 
-            %h4 Status
+  - render_region :main do |main|
+    = main.render_region :introduction
+    .MainTopics
+      = main.render_region :organizing
+      = main.render_region :editing 
+      
   - unless @extensions.blank?
     .Extensions
       %h2 Additional Features
@@ -79,10 +44,4 @@
         %h3
           = link_to e.name, (help_url() + '/' + e.name)
         = render :partial => 'details', :locals => {:extension => e}
-
-:javascript
-  var setup = function(){
-    
-  }
-  Event.observe(window, 'load', setup);
   
