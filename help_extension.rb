@@ -11,6 +11,8 @@ class HelpExtension < Radiant::Extension
   define_routes do |map|
     map.with_options :controller => 'admin/help' do |help|
       help.help 'admin/help', :action => 'index', :conditions => {:method => :get}
+      help.developing 'admin/help/developing', :action => 'developing', :conditions => {:method => :get}
+      help.developing 'admin/help/administering', :action => 'administering', :conditions => {:method => :get}
       help.connect 'admin/help/:extension_name', :action => 'show', :conditions => {:method => :get}
     end
   end
