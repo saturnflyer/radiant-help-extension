@@ -37,8 +37,10 @@ class Admin::HelpController < ApplicationController
   end
   
   def developing
+    render :template => 'admin/help/developing/index.html.haml'
   end
   
   def administering
+    render :template => 'admin/help/administering/index.html.haml'
   end
 end
