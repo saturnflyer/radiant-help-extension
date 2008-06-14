@@ -23,7 +23,7 @@ describe HelpfulExtension do
   describe "when registering in the database with HelpfulExtension.register" do
     it "should raise a HelpfulExtension::DetailsError without a name" do
       lambda {
-        @ext = HelpfulExtension.register()
+        @ext = HelpfulExtension.register(:author_name => "Jim Gay")
       }.should raise_error(HelpfulExtension::DetailsError)
     end
     
