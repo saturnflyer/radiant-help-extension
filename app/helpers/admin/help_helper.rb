@@ -14,4 +14,12 @@ module Admin::HelpHelper
     end
     ret << "</ul>\n"
   end
+  
+  def admin_help(&block)
+    yield if admin?
+  end
+  
+  def developer_help(&block)
+    yield if developer?
+  end
 end

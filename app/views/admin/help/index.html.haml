@@ -35,7 +35,15 @@
     - render_region :main do |main|
       = main.render_region :introduction
       = main.render_region :organizing
-      = main.render_region :editing 
+      = main.render_region :editing
+    - developer_help do
+      .DeveloperTopics
+        - render_region :developer do |developer|
+          = developer.render_region :layouts
+    - admin_help do
+      .AdminTopics
+        - render_region :admin do |admin|
+          = admin.render_region :users
       
   - unless @extensions.blank?
     .Extensions
