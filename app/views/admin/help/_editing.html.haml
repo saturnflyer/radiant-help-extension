@@ -16,7 +16,7 @@
     %p The filter that you select is used to process the text that you enter. That means that you don't need to write HTML for it to show up properly on your website. 
     %p 
       The filters provided for you are:
-      = @filters.collect(&:filter_name).join(', ')
+      = @filters.collect(&:filter_name).to_sentence(:connector => 'and', :skip_last_comma => true)
     %p To get more information about these text filters:
     %ol
       %li go to a page edit screen and select a filter
@@ -24,6 +24,29 @@
       %li scroll through the documentation that appears to find out more about using your selected Filter.
     %p If you ever need help with formatting your text, the information is right where you need it.
 %h3 Available Tags
+%p The typical user won't need to worry much about Tags, but you have the flexibility to display your website content in many ways. These Tags are commonly used by admins and developers. Here's a quick and limited example of what can be done:
+%pre
+  &== <r:find url="/about"><r:content part="contact" /></r:find>
+%p That example finds the page with "about" for the Slug, and outputs the content of the "contact" part.
+%p Much more can be done, but these Tags should be used with caution if you are unfamiliar with them.
 %h3 Layout
+%p 
+  Different Layouts may be created for your website. For a small site you may have only one, or for a large site there may be more options. The Layouts created for your site are:
+  = @layouts.collect(&:name).to_sentence(:connector => 'and', :skip_last_comma => true)
+%p Layouts determine how your content will be displayed. Typically a Layout is created for the Home page and all of its child pages inherit that layout from it. It's likely that you don't need to make any changes to this setting on the pages that you edit, but talk to the administrator or designer of your site to find out what layout to choose.
 %h3 Page Type
+%p 
+  The Page Type determines how the page will behave. This website, for example,
+  - unless @file_not_found_page.nil?
+    = "has the page \"#{@file_not_found_page.title}\"."
+  - else
+    doesn't have a File Not Found Page.
+  = "A #{FileNotFoundPage.display_name} page will be displayed to anyone requesting a page that does not exist. This allows you to customize the message to your website visitors if they try to find a page like yoursite.com/non-existant-page"
 %h3 Status
+%p The Status of a page helps to determine how it will be displayed to visitors of your site, but also helps you manage your content internally. Only 'Published' pages are displayed to the public, but if you need to hide a previously published page, you can set the Status to 'Hidden'
+%p 'Draft' and 'Reviewed' allow you to set a Status that gives you information about the readiness of that page to be displayed to your website visitors.
+%p One person on your team, for example may write content for one page and then set it to 'Draft'. Another team member can then check the content of the draft and set it to 'Reviewed'. When ready, you can then set the page status to 'Published'. These steps, of course, aren't necessary, but they are available if you need them.
+%h3 Saving your changes
+%p By selecting "Save Changes", your page content will be saved and you will return to the page index.
+%p By selecting "Save and Continue Editing", your page content will be saved and you will return to the same page edit screen. This is useful if you would like to make a change to view on your public website, but continue making changes after rewiewing your change.
+%p You may also "Cancel" any changes in which case your changes will not be saved and you will return to the page index.
