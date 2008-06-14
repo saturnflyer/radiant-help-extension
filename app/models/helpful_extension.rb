@@ -31,6 +31,11 @@ class HelpfulExtension < ActiveRecord::Base
   def self.unregister(extension_name)
     helper = self.find_by_name(extension_name) if extension_name.kind_of?(String)
     helper = self.find_by_name(extension_name.name) if extension_name.respond_to?(:name)
-    helper.destroy unless helper.nil?
+    unless helper.nil?
+      helper.destroy
+      true
+    else
+      false
+    end
   end
 end
