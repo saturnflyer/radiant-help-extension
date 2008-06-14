@@ -28,9 +28,9 @@
           :color #333
           :margin 0 0 10px
 
-%h1 
-  = @name + " Help"
 .Help
+  = render :partial => 'help_nav'
+  %h1= @name + " Help"
   .MainTopics
     - render_region :main do |main|
       = main.render_region :introduction
