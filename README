@@ -14,6 +14,8 @@ Radiant::Initializer.run do |config|
 ...
 end
 
+Help provides basic information for the average user at admin/help, but also provides documentation for tasks and features available to developers and admins at admin/help/developing and admin/help/administering.
+
 == Extensions using Help
 
 If you're building an extension that takes advantage of Help, there are 2 ways to provide help to your users: database registered help, and partial injection based help.
