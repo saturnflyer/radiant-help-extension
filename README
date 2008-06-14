@@ -50,4 +50,13 @@ You may inject partials into the interface by adding code such this into your ex
 
 For a list of all of the regions provided by Help, see help_extension.rb around line 36, and app/views/admin/index.html.haml for details about where they appear.
 
+When adding your partials, you may specify inline decisions about whom should see your documentation with the admin_help and developer_help helper methods. These can be used in your HAML by doing:
+
+  - admin_help do
+    %p Hello Madame Admin!
+  - developer_help do
+    %p You are special, Mr. Developer.
+
+Those blocks of text will only be shown to the user if they are in those roles.
+
 Built by Saturn Flyer http://www.saturnflyer.com
