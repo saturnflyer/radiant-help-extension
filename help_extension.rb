@@ -43,8 +43,6 @@ class HelpExtension < Radiant::Extension
       help.index = Radiant::AdminUI::RegionSet.new do |index|
         index.main.concat %w{introduction organizing editing}
         index.filter.concat %w{filter_basics}
-        index.developer.concat %w{developer_layouts}
-        index.admin.concat %w{admin_users}
         index.additional.concat %w{features_introduction}
       end
       help.show = Radiant::AdminUI::RegionSet.new do |show|
