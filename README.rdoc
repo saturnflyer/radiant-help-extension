@@ -24,20 +24,24 @@ If you're building an extension that takes advantage of Help, there are 2 ways t
 
 Registering your help documentation in the database presents your information in a list of "Additional Features." You can register your help information in the database with:
 
-HelpfulExtension.register()
+	HelpfulExtension.register()
+
+You may then add information to your registered extension with:
+
+	Help.create()
+	
+This, for example, would go in a migration for your extension:
 
     @my_help = HelpfulExtension.register(:name => 'Featured_Pages', :author_name => 'Saturn Flyer', :author_contact => 'http://www.saturnflyer.com')
     @my_help.helps.create(:topic => 'Selecting Pages to Feature', :description => 'You may select a page to appear in your Featured Pages by going to the edit screen for the desired page and checking the box "Featured page".')
 
-The :name that you choose will be used in the url, so using an underscore in place of a space may make more attractive URLs. Once your HelpfulExtension is registered, you can add your help documentation to the database and it will appear in the Help tab of the admin interface:
-
-Help.create(:topic => 'Marking Featured Pages', :description => 'You can select which pages you would like to feature by visiting the edit screen for the desired page and selecting the Featured Page checkbox before saving the page.')
+The :name that you choose will be used in the url, so using an underscore in place of a space may make more attractive URLs.
 
 Help views are currently processed in HAML, so you can enter information into the description that HAML will understand. See http://haml.hamptoncatlin.com/docs/rdoc/classes/Haml.html for more info.
 
 You may unregister your extension (thereby deleting all help information in the database) by using:
 
-HelpfulExtension.unregister('Featured_Pages')
+	HelpfulExtension.unregister('Featured_Pages')
 
 === Partial Injection Based Help
 
@@ -50,7 +54,7 @@ You may inject partials into the interface by adding code such this into your ex
 * "client_welcome" is the partial that you want to add and should be located in your extension directory app/views/admin/help/_client_welcome.html.haml
 * :before => "introduction" will place your partial before the introduction region (or you could do :after). This is optional, and if left out, your partial will be appended to the ":main" section.
 
-For a list of all of the regions provided by Help, see help_extension.rb around line 36, and app/views/admin/index.html.haml for details about where they appear.
+For a list of all of the regions provided by Help, see help_extension.rb around line 42, and app/views/admin/index.html.haml for details about where they appear.
 
 When adding your partials, you may specify inline decisions about whom should see your documentation with the admin_help and developer_help helper methods. These can be used in your HAML by doing:
 
@@ -59,8 +63,8 @@ When adding your partials, you may specify inline decisions about whom should se
   - developer_help do
     %p You are special, Mr. Developer.
 
-Those blocks of text will only be shown to the user if they are in those roles.
+Those helper methods make use of the admin? and developer? helpers provided by Radiant. The blocks of text will only be shown to the user if they are in those roles, but keep in mind that currently developer? returns true if the user is selected only as an admin (meaning developer_help will be seen by developers and admins).
 
-Some content taken from http://radiantcms.org/
+Some content taken from http://radiantcms.org/[http://radiantcms.org/]
 
-Built by Saturn Flyer http://www.saturnflyer.com
+Built by Saturn Flyer http://www.saturnflyer.com[http://www.saturnflyer.com]

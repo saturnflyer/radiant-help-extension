@@ -20,6 +20,7 @@ class HelpExtension < Radiant::Extension
   def activate
     admin.tabs.add "Help", "/admin/help", :after => "Layouts", :visibility => [:all]
     
+    # Future ability to toggle inline help, not yet implemented
     # admin.page.edit.add :main, "user_help_toggle", :before => "edit_header" 
     
     # This adds information to the Radiant interface. In this extension, we're dealing with "help" views
