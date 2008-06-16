@@ -139,3 +139,7 @@
   %code
     &== <r:rfc1123_date />
   %p Outputs the date using the format mandated by RFC 1123. (Ideal for RSS feeds.)
+  %h2 Full Tag Reference
+  - returning String.new do |output|
+    - Page.tag_descriptions.sort.each do |tag_name, description|
+      = render(:partial => "admin/page/tag_reference.html.haml", :locals => {:tag_name => tag_name, :description => description})
