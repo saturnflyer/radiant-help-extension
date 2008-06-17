@@ -12,6 +12,7 @@ class Admin::HelpController < ApplicationController
     :denied_message => 'You must have admin privileges to access this information.'
   
   def index
+    @rdocs = HelpRdoc.find(:all)
     @file_not_found_page = Page.find(:first, :conditions => {:class_name => 'FileNotFoundPage'})
     @layouts = Layout.find(:all)
     @filters = TextFilter.descendants.uniq
@@ -31,6 +32,10 @@ class Admin::HelpController < ApplicationController
     end
   rescue NameError
     render :action => 'unknown'
+  end
+  
+  def docs
+    @rdoc = HelpRdoc.find(:all, params[:extension_name])
   end
   
   def unknown

@@ -9,13 +9,14 @@ class HelpExtension < Radiant::Extension
   url "http://saturnflyer.com/"
   
   define_routes do |map|
-    map.with_options :controller => 'admin/help' do |help|
-      help.help 'admin/help', :action => 'index', :conditions => {:method => :get}
-      help.help_developing 'admin/help/developing', :action => 'developing', :conditions => {:method => :get}
-      help.help_developing_extension 'admin/help/developing/:extension_name', :action => 'developing_extension', :conditions => {:method => :get}
-      help.help_administering 'admin/help/administering', :action => 'administering', :conditions => {:method => :get}
-      help.help_administering_extension 'admin/help/administering/:extension_name', :action => 'administering_extension', :conditions => {:method => :get}
-      help.help_unknown 'admin/help/:extension_name', :action => 'show', :conditions => {:method => :get}
+    map.with_options :controller => 'admin/help', :conditions => {:method => :get} do |help|
+      help.help 'admin/help', :action => 'index'
+      help.help_developing 'admin/help/developing', :action => 'developing'
+      help.help_developing_extension 'admin/help/developing/:extension_name', :action => 'developing_extension'
+      help.help_administering 'admin/help/administering', :action => 'administering'
+      help.help_administering_extension 'admin/help/administering/:extension_name', :action => 'administering_extension'
+      help.help_docs 'admin/help/docs/:extension_name', :action => 'docs'
+      help.help_extension 'admin/help/:extension_name', :action => 'show'
     end
   end
   
@@ -64,6 +65,7 @@ class HelpExtension < Radiant::Extension
         index.main.concat %w{introduction organizing editing}
         index.filter.concat %w{filter_basics}
         index.additional.concat %w{features_introduction}
+        index.rdocs.concat %w{rdocs_introduction}
       end
       help.show = Radiant::AdminUI::RegionSet.new do |show|
         # show.

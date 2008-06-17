@@ -18,7 +18,7 @@
         a:hover
           :color #000
           :background #fff
-      .Extensions
+      .Extensions, .Rdocs
         :background #eee
         :border 1px solid #ccc
         :float right
@@ -75,4 +75,14 @@
         %h3
           = link_to e.name, (help_url() + '/' + e.name)
         = render :partial => 'details', :locals => {:extension => e}
+      
+  - unless @rdocs.blank?
+    .Rdocs
+      %h2 Help Documents
+      - render_region :rdocs do |rdoc|
+        = rdoc.render_region :rdocs_introduction
+      - @rdocs.each do |rdoc|
+        %h3
+          - rdoc_name = rdoc[/[(\w+)]\/(\w+)\/HELP/, 1]
+          = link_to rdoc_name.camelize, help_docs_url(rdoc_name)
   
