@@ -29,11 +29,27 @@ class HelpExtension < Radiant::Extension
     Radiant::AdminUI.class_eval do
       attr_accessor :help
     end
+    
     # initialize regions for help (which we created above)
     admin.help = load_default_help_regions
+    
+    # Provide the ability to replace regions...
+    # Don't like how the regions are setup? Hack it without changing this extension's code
+    # Be forewarned, this allows you to completely change the UI
+    Radiant::AdminUI::RegionSet.class_eval do
+      def replace(region=nil, partial=nil)
+        raise ArgumentError, "You must specify a region and a partial" unless region and partial
+        self[region].replace([partial])
+      end
+    end
+    # You could, for example create your own role based interface with this
+    # admin.help.main.replace('main','main_for_admins_only')
+    # But I only threw this in here to allow you to change the help docs easily if you want.
+    # I am merely providing the rope...
   end
   
   def deactivate
+    # This never happens
   end
   
   private
