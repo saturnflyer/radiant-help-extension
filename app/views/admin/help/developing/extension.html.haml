@@ -1,0 +1,2 @@
+= render :partial => 'help_nav'
+= RedCloth.new(File.read(@rdoc)).to_html(:markdown)

@@ -12,8 +12,10 @@ class HelpExtension < Radiant::Extension
     map.with_options :controller => 'admin/help' do |help|
       help.help 'admin/help', :action => 'index', :conditions => {:method => :get}
       help.help_developing 'admin/help/developing', :action => 'developing', :conditions => {:method => :get}
+      help.help_developing_extension 'admin/help/developing/:extension_name', :action => 'developing_extension', :conditions => {:method => :get}
       help.help_administering 'admin/help/administering', :action => 'administering', :conditions => {:method => :get}
-      help.connect 'admin/help/:extension_name', :action => 'show', :conditions => {:method => :get}
+      help.help_administering_extension 'admin/help/administering/:extension_name', :action => 'administering_extension', :conditions => {:method => :get}
+      help.help_unknown 'admin/help/:extension_name', :action => 'show', :conditions => {:method => :get}
     end
   end
   
@@ -50,6 +52,7 @@ class HelpExtension < Radiant::Extension
   
   def deactivate
     # This never happens
+    # TODO: look into ideas like mixology to bring this back http://www.somethingnimble.com/bliki/mixology
   end
   
   private

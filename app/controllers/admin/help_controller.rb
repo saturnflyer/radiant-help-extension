@@ -37,10 +37,22 @@ class Admin::HelpController < ApplicationController
   end
   
   def developing
+    @rdocs = HelpRdoc.find(:developer)
     render :template => 'admin/help/developing/index.html.haml'
   end
   
+  def developing_extension
+    @rdoc = HelpRdoc.find(:developer, params[:extension_name])
+    render :template => 'admin/help/developing/extension.html.haml'
+  end
+  
   def administering
+    @rdocs = HelpRdoc.find(:admin)
     render :template => 'admin/help/administering/index.html.haml'
+  end
+  
+  def administering_extension
+    @rdoc = HelpRdoc.find(:admin, params[:extension_name])
+    render :template => 'admin/help/administering/extension.html.haml'
   end
 end

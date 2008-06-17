@@ -15,6 +15,14 @@ module Admin::HelpHelper
     ret << "</ul>\n"
   end
   
+  # This doesn't work yet...
+  # ready for more roles when they appear in Radiant
+  # %{admin developer}.each do |role|
+  #   define_method("#{role}_help") do |block|
+  #      yield block if "#{role}?"
+  #   end
+  # end
+  
   def admin_help(&block)
     yield if admin?
   end
