@@ -1,0 +1,8 @@
+- unless extensions.blank?
+  .Extensions
+    %h2 Additional Features
+    = render :partial => 'features_introduction'
+    - extensions.each do |e|
+      %h3
+        = link_to e.name, (help_url() + '/' + e.name)
+      = render :partial => 'details', :locals => {:extension => e}

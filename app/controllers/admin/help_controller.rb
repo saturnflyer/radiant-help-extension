@@ -16,13 +16,15 @@ class Admin::HelpController < ApplicationController
     @file_not_found_page = Page.find(:first, :conditions => {:class_name => 'FileNotFoundPage'})
     @layouts = Layout.find(:all)
     @filters = TextFilter.descendants.uniq
-    @name ||= Radiant::Config['admin.title']
+    @cms_name ||= Radiant::Config['admin.title']
     @extensions = HelpfulExtension.find(:all)
   end
   
   def show
     @sought = params[:extension_name].camelize
     @sought_constant = @sought.constantize
+    @rdocs = HelpRdoc.find(:all)
+    @extensions = HelpfulExtension.find(:all)
     @extension = HelpfulExtension.find_by_name(@sought)
     unless @extension.nil?
       @helps = @extension.helps.find(:all, :conditions => {:parent_id => nil})
@@ -35,6 +37,8 @@ class Admin::HelpController < ApplicationController
   end
   
   def docs
+    @rdocs = HelpRdoc.find(:all)
+    @extensions = HelpfulExtension.find(:all)
     @rdoc = HelpRdoc.find(:all, params[:extension_name])
   end
   
@@ -54,6 +58,7 @@ class Admin::HelpController < ApplicationController
   end
   
   def administering
+    @cms_name ||= Radiant::Config['admin.title']
     @rdocs = HelpRdoc.find(:admin)
     render :template => 'admin/help/administering/index.html.haml'
   end

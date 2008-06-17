@@ -3,30 +3,11 @@
 
 .Help
   = render :partial => 'help_nav'
-  %h1= @name + " Help"
+  %h1= @cms_name + " Help"
   .MainTopics
     - render_region :main do |main|
       = main.render_region :introduction
       = main.render_region :organizing
       = main.render_region :editing
-      
-  - unless @extensions.blank?
-    .Extensions
-      %h2 Additional Features
-      - render_region :additional do |additional|
-        = additional.render_region :features_introduction
-      - @extensions.each do |e|
-        %h3
-          = link_to e.name, (help_url() + '/' + e.name)
-        = render :partial => 'details', :locals => {:extension => e}
-      
-  - unless @rdocs.blank?
-    .Rdocs
-      %h2 Basic Help Documents
-      - render_region :rdocs do |rdoc|
-        = rdoc.render_region :rdocs_introduction
-      - @rdocs.each do |rdoc|
-        %h3
-          - rdoc_name = rdoc_extension_dir(rdoc)
-          = link_to rdoc_name.titleize, help_docs_url(rdoc_name)
-  
+  = render :partial => 'additional_features_list', :locals => {:extensions => @extensions}    
+  = render :partial => 'rdocs_list', :locals => {:rdocs => @rdocs}

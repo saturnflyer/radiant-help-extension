@@ -1,0 +1,70 @@
+Developing for Help is easy.
+
+If you'd like to include help information for your own extensions you have several options. You may
+
+1. Create RDoc help files
+2. Inject partials into the Help interface
+3. Register your information in the database
+
+== RDoc Help Files
+
+Help looks through all of your installed extensions to find relevant HELP.rdoc files. These files must follow the naming conventions of:
+
+1. HELP.rdoc (this is for general users)
+2. HELP_developer.rdoc (this will only be shown to users with the developer role)
+3. HELP_admin.rdoc (this will only be show to users with the admin role)
+
+These files must be placed in the root of your extension. If you do not wish to provide help for a certain user group, do not create the pertinent RDoc.
+
+== Partial Injection Based Help
+
+You may inject partials into the interface by adding code such this into your extension's activate method:
+
+    admin.help.index.add :main, "client_welcome", :before => "introduction"
+
+* "admin.help.index" refers to the main help page (the help index) and ".add" is called to add information to the section provided in the next argument. 
+* ":main" is the argument that specifies which section will receive your partial. 
+* "client_welcome" is the partial that you want to add and should be located in your extension directory app/views/admin/help/_client_welcome.html.haml
+* :before => "introduction" will place your partial before the introduction region (or you could do :after). This is optional, and if left out, your partial will be appended to the ":main" section.
+
+For a list of all of the regions provided by Help, see help_extension.rb around line 65, and app/views/admin/index.html.haml for details about where they appear.
+
+When adding your partials, you may specify inline decisions about whom should see your documentation with the admin_help and developer_help helper methods. These can be used in your HAML by doing:
+
+  - admin_help do
+    %p Hello Madame Admin!
+  - developer_help do
+    %p You are special, Mr. Developer.
+
+Those helper methods make use of the admin? and developer? helpers provided by Radiant. The blocks of text will only be shown to the user if they are in those roles, but keep in mind that currently developer? returns true if the user is selected only as an admin (meaning developer_help will be seen by developers and admins).
+
+== Database Registered Help
+
+Registering your help documentation in the database presents your information in a list of "Additional Features" on the Basic help screen. You can register your help information in the database with:
+
+	HelpfulExtension.register()
+
+You may then add information to your registered extension with:
+
+	Help.create()
+	
+This, for example, would go in a migration for your extension:
+
+    @my_help = HelpfulExtension.register(:name => 'Featured_Pages', :author_name => 'Saturn Flyer', :author_contact => 'http://www.saturnflyer.com')
+    @my_help.helps.create(:topic => 'Selecting Pages to Feature', :description => 'You may select a page to appear in your Featured Pages by going to the edit screen for the desired page and checking the box "Featured page".')
+
+The :name that you choose will be used in the url, so using an underscore in place of a space may make more attractive URLs.
+
+Help views are currently processed in HAML, so you can enter information into the description that HAML will understand. See http://haml.hamptoncatlin.com/docs/rdoc/classes/Haml.html for more info.
+
+You may unregister your extension (thereby deleting all help information in the database) by using:
+
+	HelpfulExtension.unregister('Featured_Pages')
+
+== Source Code
+
+Help is made freely available at http://github.com/saturnflyer/radiant-help/
+
+Help was built by Saturn Flyer 
+
+http://www.saturnflyer.com

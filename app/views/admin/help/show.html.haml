@@ -1,12 +1,17 @@
-%h1
-  = @extension.name
-= render :partial => 'details', :locals => {:extension => @extension}
+- content_for :page_css do
+  = render :partial => 'styles.html.haml'
 
-- unless @helps.blank?
-  = help_tree_for(@helps)
-- else
-  %p No help information is provided at this time.
-  = render :partial => 'hard_coded_details'
-  
-%p
-  =link_to "Help Index", help_path
+.Help
+  = render :partial => 'help_nav'
+  %h1= @extension.name
+  .MainTopics
+    = render :partial => 'details', :locals => {:extension => @extension}
+
+    - unless @helps.blank?
+      = help_tree_for(@helps)
+    - else
+      %p No help information is provided at this time.
+      = render :partial => 'hard_coded_details'
+    
+  = render :partial => 'additional_features_list', :locals => {:extensions => @extensions}    
+  = render :partial => 'rdocs_list', :locals => {:rdocs => @rdocs}

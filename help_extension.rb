@@ -2,6 +2,9 @@
 require_dependency 'application'
 # You'll need this if you are going to add regions into your extension interface.
 require 'ostruct'
+# These are needed for parsing the HELP.rdoc files
+require 'rdoc/markup/simple_markup'
+require 'rdoc/markup/simple_markup/to_html'
 
 class HelpExtension < Radiant::Extension
   version "1.0"
@@ -71,12 +74,12 @@ class HelpExtension < Radiant::Extension
       help.show = Radiant::AdminUI::RegionSet.new do |show|
         # show.
       end
-      help.developing = Radiant::AdminUI::RegionSet.new do |developing|
-        developing.rdocs_developing.concat %w{rdocs_developing_introduction}
-      end
-      help.adminsistering = Radiant::AdminUI::RegionSet.new do |adminsistering|
-        adminsistering.rdocs_administering.concat %w{rdocs_developing_introduction}
-      end
+      # help.developing = Radiant::AdminUI::RegionSet.new do |developing|
+      #   developing.rdocs_developing.concat %w{rdocs_developing_introduction}
+      # end
+      # help.adminsistering = Radiant::AdminUI::RegionSet.new do |adminsistering|
+      #   adminsistering.rdocs_administering.concat %w{rdocs_developing_introduction}
+      # end
     end
   end
   
