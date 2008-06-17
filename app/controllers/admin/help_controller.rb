@@ -46,9 +46,11 @@ class Admin::HelpController < ApplicationController
     render :template => 'admin/help/developing/index.html.haml'
   end
   
-  def developing_extension
+  def developing_docs
+    render :action => 'developing' if params[:extension_name].nil?
+    @rdocs = HelpRdoc.find(:developer)
     @rdoc = HelpRdoc.find(:developer, params[:extension_name])
-    render :template => 'admin/help/developing/extension.html.haml'
+    render :template => 'admin/help/developing/docs.html.haml'
   end
   
   def administering
@@ -56,8 +58,10 @@ class Admin::HelpController < ApplicationController
     render :template => 'admin/help/administering/index.html.haml'
   end
   
-  def administering_extension
+  def administering_docs
+    render :action => 'administering' if params[:extension_name].nil?
+    @rdocs = HelpRdoc.find(:admin)
     @rdoc = HelpRdoc.find(:admin, params[:extension_name])
-    render :template => 'admin/help/administering/extension.html.haml'
+    render :template => 'admin/help/administering/docs.html.haml'
   end
 end

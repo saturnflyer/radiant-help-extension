@@ -1,145 +1,150 @@
+- content_for :page_css do
+  = render :partial => 'styles.html.haml'
+
 .Help
   = render :partial => 'help_nav'
-  %h1 Developing for Radiant
-  %h2 Caching
-  %p An optimisation feature of Radiant is the page cache, which stops it having to rebuild pages from scratch each time they are requested. However, when you edit pages, they may not seem to change when you look at the live site, particularly if the change is for children that some parent page is referencing (lists of links to children, that kind of thing). This is because the generated pages are cached for speed but at the time of writing Radiant does not flush the cache for certain kinds of page changes. To ensure that edits, additions or removals are visible on the live site, click on the Clear Page Cache button underneath the list of pages. This will of course cause a temporary performance hit as the cache must be rebuilt when pages are next fetched.
-  %h2 Radiant Tags
-  %p Now the interesting bit – the tags you can use in your layouts, snippets and page bodies to pull all the bits of your site together. This list and the description of the tags is taken from the Radiant source file app/models/page_context.rb if you want to look at the underlying implementation or check for changes if you think the documentation below may be inaccurate.
-  %p Tags can only be used in page, layout or snippet content, not in names or page titles.
-  %p Where square brackets are used below, they indicate that the thing contained inside is optional. If you decide to include it, don’t include the square brackets – e.g.:
-  %code
-    &== <r:children:each [offset="number"]>
-  %p ...indicates that you could use the following in a real layout, snippet or page:
-  %code
-    &== <r:children:each offset="2">
-  %h3 Containers
-  %p Containers wrap around other Radiant tags. The tags inside will operate within the scope of the container, allowing you to get at, say, the title of the current page or a particular child.
-  %code
-    &== <r:page>...</r:page>
-  %p Causes the tags referring to a page’s attributes to refer to the current page.
-  %code
-    &== <r:parent>...</r:parent>
-  %p Gives access to page’s parent.
-  %code
-    &== <r:children>...</r:children>
-  %p Gives access to a page’s children. This is not directly useful without an inner container to say which child is of interest (see example below).
-  %code
-    &== <r:children:first>...</r:children:first>
-  %p or
-  %code
-    &== <r:children><r:first>...</r:first></r:children>
-  %p Returns the first child according to sorting in ascending alphabetic order. Inside this tag all page attribute tags are mapped to the first child.
-  %code
-    &== <r:children:last>...</r:children:last>
-  %p or
-  %code
-    &== <r:children><r:last>...</r:last></r:children>
-  %p Returns the last child according to sorting in ascending alphabetic order. Inside this tag all page attribute tags are mapped to the last child.
-  %code
-    &== <r:children:each [offset="number"] [limit="number"] [by="attribute"] [order="asc|desc"]  [status="draft|reviewed|published|hidden|all"]>...</r:children:each>
-  %p Cycles through each of the children. Inside this tag all page attribute tags are mapped to the current child page. You can also use the ... form. Note that the default sort order is ascending order of addition, not alphabetic, so the first and last child returned may be different from those given by the :first and :last selectors.
-  %code
-    &== <r:child>...</r:child>
-  %p Page attribute tags inside of this tag refer to the current child. Not needed in most cases. Note that these are not directly useful from a parent, because they don’t say which child to select – there could be several. If you want to refer to child pages, you need to use things like the :first or :last child selectors described above.
-  %code
-    &== <r:find url="value_to_find">...</r:find>
-  %p Inside this tag all page related tags refer to the tag found at the ‘url’ attribute.
-  %h3 Page Content
-  %p Some of the most important tags in Radiant are used to include snippet or page content within layouts.
-  %code
-    &== <r:content [part="part_name"] [inherit="true|false"] [contextual="true|false"] />
-  %p Renders the main content of a page. Use the part attribute to select a specific page part (body or extended usually, unless you’ve added other custom part names to the page). By default the part attribute is set to body. Use the inherit attribute to specify that, if a page does not have a content part by the given part name, the tag should render the parent’s content part instead (this allows children to optionally override parts of a page). By default inherit is set to false. Use the contextual attribute to force a part inherited from a parent part to be evaluated in the context of the child page. By default contextual is set to false.
-  %p NEVER include a page within itself, ever! You’ll hang Radiant and the supporting Ruby interpreter. You’ll need to go to your hosting service and forcibly kill off the process, during which time it will be consuming all CPU resources and chewing up huge amounts of RAM.
-  %p At the time of writing, Radiant does nothing to protect itself against recursive inclusions. So:
-  %p Example 1: Never do this!
-  %code
-    &== <r:page><r:content /></r:page>
-  %p ...If you do that inside a page, you’ll get exactly what you asked for!
-  %code
-    &== <r:snippet name="snippet_name" />
-  %p Renders the snippet specified in the name attribute within the context of a page.
-  %h3 Attributes
-  %p Attributes include page URLs, titles or authors. The containers listed above determine which page an attribute will act upon. By default, the current page is always chosen.
-  %code
-    &== <r:url />
-  %p Renders the URL of the current page.
-  %code
-    &== <r:title />
-  %p Renders the title of the current page.
-  %code
-    &== <r:author />
-  %p Renders the name of the Author of the current page. The author is set implicitly when someone logs in to the Radiant administrative interface and creates or modifies a page.
-  %code
-    &== <r:date [format="format_string"] />
-  %p Renders the date that a page was published (or in the event that it has not ben modified yet, the date that it was created). The format attribute uses the same formating codes used by the Ruby strftime function. By default it’s set to %A, %B %d, %Y.
-  %code
-    &== <r:link [anchor="name"] [other attributes...] />
-  %p or
-  %code
-    &== <r:link>...</r:link>
-  %p Renders a link to the page. When used as a single tag it uses the page’s title for the link name. When used as a double tag the part in between both tags will be used as the link text. The link tag passes all attributes over to the HTML A tag. This is very useful for passing attributes like the class attribute or id attribute. If the anchor attribute is passed to the tag it will append a pound sign (’#’) followed by the value of the attribute to the href attribute of the HTML A tag, effectively making an HTML anchor. These are better explained by examples:
-  %p Example 2:
-  %code
-    &== <r:children:first><r:link /></r:children:first>
-  %p Creates a link to the first child of this parent, using the child’s page title as the link’s visible text.
-  %p Example 3:
-  %code
-    &== <r:children:last><r:link anchor="hello">Link to child</r:link></r:children:last>
-  %p Creates a link to the last child of this parent, using the visible text Link to child. The URL within the link treats the page as if it were a folder with a default index page inside, so it ends in ”/”. The anchor text #hello is appended after this, allowing the link to reference a local anchor within the child page, on the assumption that the HTML for the page defines such an anchor (<A name="..." ...>).
-  %code
-    &== <r:children:count />
-  %p Renders the total number of children.
-  %code
-    &== <r:navigation urls="[Title: url| Title: url| ...]"><r:normal><a href="<r:url />"><r:title /></a></r:normal><r:here><strong><r:title /></strong></r:here><r:selected><strong><a href="<r:url />"><r:title /></a></strong></r:selected><r:between> | </r:between></r:navigation>
-  %p Renders a list of links specified in the urls attribute (separated by a vertical bar ”|”) according to three states:
-  %ul
-    %li normal specifies the normal state for the link
-    %li here specifies the state of the link when the url matches the current page’s url
-    %li selected specifies the state of the link when the current page is a child of the specified url
-  %p The between tag specifies what should be inserted in-between each of the links.
-  %p Please note that if you are using pre-0.6.x use ; instead of | to delimit the navigation urls. More example code (using lists).
-  %h3 Conditional Elements
-  %p Radiant supports a number of ways to include things conditionally using various different tags and matching strategies.
-  %code
-    &== <r:header [name="header_name"] [restart="name1[;name2;...]"]>...</r:header>
-  %p Renders the tag contents only if the contents do not match the previous header. This is extremely useful for rendering date headers for a list of child pages.
-  %p If you would like to use several header blocks you may use the name attribute to name the header. When a header is named it will not restart until another header of the same name is different.
-  %p Using the restart attribute you can cause other named headers to restart when the present header changes. Simply specify the names of the other headers in a semicolon separated list.
-  %code
-    &== <r:if_content [part="part_name"]>...</r:if_content>
-  %p Renders the containing elements only if the part exists on a page. By default the part attribute is set body.
-  %code
-    &== <r:unless_content [part="part_name"]>...</r:unless_content>
-  %p The opposite of the if_content tag.
-  %code
-    &== <r:if_parent>...</r:if_parent>
-  %p Renders the containing elements only if the the page has a parent.
-  %code
-    &== <r:unless_parent>...</r:unless_parent>
-  %p The opposite of the if_parent tag.
-  %code
-    &== <r:if_url matches="regexp" [ignore_case="true|false"]>...</r:if_url>
-  %p Renders the containing elements only if the page’s url matches the regular expression given in the matches attribute. If the ignore_case attribute is set to false, the match is case sensitive. By default, ignore_case is set to true.
-  %code
-    &== <r:unless_url matches="regexp" [ignore_case="true|false"]>...</r:unless_url>
-  %p The opposite of the if_url tag.
-  %code
-    &== <r:random><r:option>...</r:option><r:option>...</r:option>...</r:random>
-  %p Randomly renders the content given in of the options specified by the r:option containers.
-  %h3 Miscellaneous tags
-  %code
-    &== <r:breadcrumbs [separator="separator_string"] />
-  %p Renders a trail of breadcrumbs to the current page. The separator attribute specifies the HTML fragment that is inserted between each of the breadcrumbs. By default it is set to ’ > ’.
-  %code
-    &== <r:comment>...</r:comment>
-  %p Nothing inside a set of comment tags is rendered.
-  %code
-    &== <r:escape_html>...</r:escape_html>
-  %p Escapes angle brackets, etc...
-  %code
-    &== <r:rfc1123_date />
-  %p Outputs the date using the format mandated by RFC 1123. (Ideal for RSS feeds.)
-  %h2 Full Tag Reference
-  - returning String.new do |output|
-    - Page.tag_descriptions.sort.each do |tag_name, description|
-      = render(:partial => "admin/page/tag_reference.html.haml", :locals => {:tag_name => tag_name, :description => description})
+  .MainTopics
+    %h1 Developing for Radiant
+    %h2 Caching
+    %p An optimisation feature of Radiant is the page cache, which stops it having to rebuild pages from scratch each time they are requested. However, when you edit pages, they may not seem to change when you look at the live site, particularly if the change is for children that some parent page is referencing (lists of links to children, that kind of thing). This is because the generated pages are cached for speed but at the time of writing Radiant does not flush the cache for certain kinds of page changes. To ensure that edits, additions or removals are visible on the live site, click on the Clear Page Cache button underneath the list of pages. This will of course cause a temporary performance hit as the cache must be rebuilt when pages are next fetched.
+    %h2 Radiant Tags
+    %p Now the interesting bit – the tags you can use in your layouts, snippets and page bodies to pull all the bits of your site together. This list and the description of the tags is taken from the Radiant source file app/models/page_context.rb if you want to look at the underlying implementation or check for changes if you think the documentation below may be inaccurate.
+    %p Tags can only be used in page, layout or snippet content, not in names or page titles.
+    %p Where square brackets are used below, they indicate that the thing contained inside is optional. If you decide to include it, don’t include the square brackets – e.g.:
+    %code
+      &== <r:children:each [offset="number"]>
+    %p ...indicates that you could use the following in a real layout, snippet or page:
+    %code
+      &== <r:children:each offset="2">
+    %h3 Containers
+    %p Containers wrap around other Radiant tags. The tags inside will operate within the scope of the container, allowing you to get at, say, the title of the current page or a particular child.
+    %code
+      &== <r:page>...</r:page>
+    %p Causes the tags referring to a page’s attributes to refer to the current page.
+    %code
+      &== <r:parent>...</r:parent>
+    %p Gives access to page’s parent.
+    %code
+      &== <r:children>...</r:children>
+    %p Gives access to a page’s children. This is not directly useful without an inner container to say which child is of interest (see example below).
+    %code
+      &== <r:children:first>...</r:children:first>
+    %p or
+    %code
+      &== <r:children><r:first>...</r:first></r:children>
+    %p Returns the first child according to sorting in ascending alphabetic order. Inside this tag all page attribute tags are mapped to the first child.
+    %code
+      &== <r:children:last>...</r:children:last>
+    %p or
+    %code
+      &== <r:children><r:last>...</r:last></r:children>
+    %p Returns the last child according to sorting in ascending alphabetic order. Inside this tag all page attribute tags are mapped to the last child.
+    %code
+      &== <r:children:each [offset="number"] [limit="number"] [by="attribute"] [order="asc|desc"]  [status="draft|reviewed|published|hidden|all"]>...</r:children:each>
+    %p Cycles through each of the children. Inside this tag all page attribute tags are mapped to the current child page. You can also use the ... form. Note that the default sort order is ascending order of addition, not alphabetic, so the first and last child returned may be different from those given by the :first and :last selectors.
+    %code
+      &== <r:child>...</r:child>
+    %p Page attribute tags inside of this tag refer to the current child. Not needed in most cases. Note that these are not directly useful from a parent, because they don’t say which child to select – there could be several. If you want to refer to child pages, you need to use things like the :first or :last child selectors described above.
+    %code
+      &== <r:find url="value_to_find">...</r:find>
+    %p Inside this tag all page related tags refer to the tag found at the ‘url’ attribute.
+    %h3 Page Content
+    %p Some of the most important tags in Radiant are used to include snippet or page content within layouts.
+    %code
+      &== <r:content [part="part_name"] [inherit="true|false"] [contextual="true|false"] />
+    %p Renders the main content of a page. Use the part attribute to select a specific page part (body or extended usually, unless you’ve added other custom part names to the page). By default the part attribute is set to body. Use the inherit attribute to specify that, if a page does not have a content part by the given part name, the tag should render the parent’s content part instead (this allows children to optionally override parts of a page). By default inherit is set to false. Use the contextual attribute to force a part inherited from a parent part to be evaluated in the context of the child page. By default contextual is set to false.
+    %p NEVER include a page within itself, ever! You’ll hang Radiant and the supporting Ruby interpreter. You’ll need to go to your hosting service and forcibly kill off the process, during which time it will be consuming all CPU resources and chewing up huge amounts of RAM.
+    %p At the time of writing, Radiant does nothing to protect itself against recursive inclusions. So:
+    %p Example 1: Never do this!
+    %code
+      &== <r:page><r:content /></r:page>
+    %p ...If you do that inside a page, you’ll get exactly what you asked for!
+    %code
+      &== <r:snippet name="snippet_name" />
+    %p Renders the snippet specified in the name attribute within the context of a page.
+    %h3 Attributes
+    %p Attributes include page URLs, titles or authors. The containers listed above determine which page an attribute will act upon. By default, the current page is always chosen.
+    %code
+      &== <r:url />
+    %p Renders the URL of the current page.
+    %code
+      &== <r:title />
+    %p Renders the title of the current page.
+    %code
+      &== <r:author />
+    %p Renders the name of the Author of the current page. The author is set implicitly when someone logs in to the Radiant administrative interface and creates or modifies a page.
+    %code
+      &== <r:date [format="format_string"] />
+    %p Renders the date that a page was published (or in the event that it has not ben modified yet, the date that it was created). The format attribute uses the same formating codes used by the Ruby strftime function. By default it’s set to %A, %B %d, %Y.
+    %code
+      &== <r:link [anchor="name"] [other attributes...] />
+    %p or
+    %code
+      &== <r:link>...</r:link>
+    %p Renders a link to the page. When used as a single tag it uses the page’s title for the link name. When used as a double tag the part in between both tags will be used as the link text. The link tag passes all attributes over to the HTML A tag. This is very useful for passing attributes like the class attribute or id attribute. If the anchor attribute is passed to the tag it will append a pound sign (’#’) followed by the value of the attribute to the href attribute of the HTML A tag, effectively making an HTML anchor. These are better explained by examples:
+    %p Example 2:
+    %code
+      &== <r:children:first><r:link /></r:children:first>
+    %p Creates a link to the first child of this parent, using the child’s page title as the link’s visible text.
+    %p Example 3:
+    %code
+      &== <r:children:last><r:link anchor="hello">Link to child</r:link></r:children:last>
+    %p Creates a link to the last child of this parent, using the visible text Link to child. The URL within the link treats the page as if it were a folder with a default index page inside, so it ends in ”/”. The anchor text #hello is appended after this, allowing the link to reference a local anchor within the child page, on the assumption that the HTML for the page defines such an anchor (<A name="..." ...>).
+    %code
+      &== <r:children:count />
+    %p Renders the total number of children.
+    %code
+      &== <r:navigation urls="[Title: url| Title: url| ...]"><r:normal><a href="<r:url />"><r:title /></a></r:normal><r:here><strong><r:title /></strong></r:here><r:selected><strong><a href="<r:url />"><r:title /></a></strong></r:selected><r:between> | </r:between></r:navigation>
+    %p Renders a list of links specified in the urls attribute (separated by a vertical bar ”|”) according to three states:
+    %ul
+      %li normal specifies the normal state for the link
+      %li here specifies the state of the link when the url matches the current page’s url
+      %li selected specifies the state of the link when the current page is a child of the specified url
+    %p The between tag specifies what should be inserted in-between each of the links.
+    %p Please note that if you are using pre-0.6.x use ; instead of | to delimit the navigation urls. More example code (using lists).
+    %h3 Conditional Elements
+    %p Radiant supports a number of ways to include things conditionally using various different tags and matching strategies.
+    %code
+      &== <r:header [name="header_name"] [restart="name1[;name2;...]"]>...</r:header>
+    %p Renders the tag contents only if the contents do not match the previous header. This is extremely useful for rendering date headers for a list of child pages.
+    %p If you would like to use several header blocks you may use the name attribute to name the header. When a header is named it will not restart until another header of the same name is different.
+    %p Using the restart attribute you can cause other named headers to restart when the present header changes. Simply specify the names of the other headers in a semicolon separated list.
+    %code
+      &== <r:if_content [part="part_name"]>...</r:if_content>
+    %p Renders the containing elements only if the part exists on a page. By default the part attribute is set body.
+    %code
+      &== <r:unless_content [part="part_name"]>...</r:unless_content>
+    %p The opposite of the if_content tag.
+    %code
+      &== <r:if_parent>...</r:if_parent>
+    %p Renders the containing elements only if the the page has a parent.
+    %code
+      &== <r:unless_parent>...</r:unless_parent>
+    %p The opposite of the if_parent tag.
+    %code
+      &== <r:if_url matches="regexp" [ignore_case="true|false"]>...</r:if_url>
+    %p Renders the containing elements only if the page’s url matches the regular expression given in the matches attribute. If the ignore_case attribute is set to false, the match is case sensitive. By default, ignore_case is set to true.
+    %code
+      &== <r:unless_url matches="regexp" [ignore_case="true|false"]>...</r:unless_url>
+    %p The opposite of the if_url tag.
+    %code
+      &== <r:random><r:option>...</r:option><r:option>...</r:option>...</r:random>
+    %p Randomly renders the content given in of the options specified by the r:option containers.
+    %h3 Miscellaneous tags
+    %code
+      &== <r:breadcrumbs [separator="separator_string"] />
+    %p Renders a trail of breadcrumbs to the current page. The separator attribute specifies the HTML fragment that is inserted between each of the breadcrumbs. By default it is set to ’ > ’.
+    %code
+      &== <r:comment>...</r:comment>
+    %p Nothing inside a set of comment tags is rendered.
+    %code
+      &== <r:escape_html>...</r:escape_html>
+    %p Escapes angle brackets, etc...
+    %code
+      &== <r:rfc1123_date />
+    %p Outputs the date using the format mandated by RFC 1123. (Ideal for RSS feeds.)
+    %h2 Full Tag Reference
+    - returning String.new do |output|
+      - Page.tag_descriptions.sort.each do |tag_name, description|
+        = render(:partial => "admin/page/tag_reference.html.haml", :locals => {:tag_name => tag_name, :description => description})
+  = render :partial => 'admin/help/developing/rdocs_list', :locals => {:rdocs => @rdocs}

@@ -30,4 +30,8 @@ module Admin::HelpHelper
   def developer_help(&block)
     yield if developer?
   end
+  
+  def rdoc_extension_dir(rdoc)
+    rdoc[/[(\w+)]\/(\w+)\/HELP/, 1]
+  end
 end

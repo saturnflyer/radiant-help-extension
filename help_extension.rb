@@ -12,9 +12,9 @@ class HelpExtension < Radiant::Extension
     map.with_options :controller => 'admin/help', :conditions => {:method => :get} do |help|
       help.help 'admin/help', :action => 'index'
       help.help_developing 'admin/help/developing', :action => 'developing'
-      help.help_developing_extension 'admin/help/developing/:extension_name', :action => 'developing_extension'
+      help.help_developing_docs 'admin/help/developing/docs/:extension_name', :action => 'developing_docs'
       help.help_administering 'admin/help/administering', :action => 'administering'
-      help.help_administering_extension 'admin/help/administering/:extension_name', :action => 'administering_extension'
+      help.help_administering_docs 'admin/help/administering/docs/:extension_name', :action => 'administering_docs'
       help.help_docs 'admin/help/docs/:extension_name', :action => 'docs'
       help.help_extension 'admin/help/:extension_name', :action => 'show'
     end
@@ -66,9 +66,16 @@ class HelpExtension < Radiant::Extension
         index.filter.concat %w{filter_basics}
         index.additional.concat %w{features_introduction}
         index.rdocs.concat %w{rdocs_introduction}
+        index.rdocs_administering.concat %w{rdocs_administering_introduction}
       end
       help.show = Radiant::AdminUI::RegionSet.new do |show|
         # show.
+      end
+      help.developing = Radiant::AdminUI::RegionSet.new do |developing|
+        developing.rdocs_developing.concat %w{rdocs_developing_introduction}
+      end
+      help.adminsistering = Radiant::AdminUI::RegionSet.new do |adminsistering|
+        adminsistering.rdocs_administering.concat %w{rdocs_developing_introduction}
       end
     end
   end

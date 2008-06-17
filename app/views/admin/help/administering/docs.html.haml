@@ -1,9 +1,11 @@
 - content_for :page_css do
   = render :partial => 'styles.html.haml'
-
+    
 .Help
   = render :partial => 'help_nav'
   .MainTopics
-    
+    %h1
+      = rdoc_extension_dir(@rdoc).titleize 
+      Help for Developers
     - r = ::RedCloth.new(File.read(@rdoc))
     = r.to_html(:markdown)

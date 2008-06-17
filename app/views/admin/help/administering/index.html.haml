@@ -1,3 +1,4 @@
 .Help
   = render :partial => 'help_nav'
   %p Administration help....
+  = render :partial => 'admin/help/administering/rdocs_list', :locals => {:rdocs => @rdocs}
