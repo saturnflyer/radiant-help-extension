@@ -14,7 +14,7 @@ Radiant::Initializer.run do |config|
 ...
 end
 
-Help provides basic information for the average user at admin/help, but also provides documentation for tasks and features available to developers and admins at admin/help/developing and admin/help/administering.
+Help provides basic information for the average user at admin/help, but also provides documentation for tasks and features available to developers and admins at admin/help_role/developer and admin/help_role/admin. Additionally, any extensions loaded with RDoc help files may be found at /admin/help_extension/:extension_name/:role but a list of links is automatically generated for your clicking pleasure.
 
 For more information about developing for HELP, install it and go to admin/help/developing or read the included HELP_developer.rdoc
 
