@@ -64,18 +64,10 @@ class HelpExtension < Radiant::Extension
         index.main.concat %w{introduction organizing editing}
         index.filter.concat %w{filter_basics}
         index.additional.concat %w{features_introduction}
-        index.rdocs.concat %w{rdocs_introduction}
-        index.rdocs_administering.concat %w{rdocs_administering_introduction}
       end
       help.show = Radiant::AdminUI::RegionSet.new do |show|
         # show.
       end
-      # help.developing.index = Radiant::AdminUI::RegionSet.new do |developing|
-      #   developing.rdocs_developing.concat %w{rdocs_developing_introduction}
-      # end
-      # help.adminsistering = Radiant::AdminUI::RegionSet.new do |adminsistering|
-      #   adminsistering.rdocs_administering.concat %w{rdocs_developing_introduction}
-      # end
     end
   end
   
