@@ -6,6 +6,36 @@ If you'd like to include help information for your own extensions you have sever
 2. Inject partials into the Help interface
 3. Register your information in the database
 
+== So Many Options
+
+"Why so many ways to provide help? It's overkill."
+
+They each have separate purposes and benefits. First, the purpose of Help is to provide basic information about the functions of Radiant. Second, Help allows developers to provide documentation for features added through extensions.
+
+=== The lowest barrier to entry is RDoc files. 
+
+Extension developers may include the appropriate files (explained below) and if users of their extension have Help installed it will appear in the Help interface, if users do not have Help installed there is no worry about dependencies and Radiant will function normally.
+
+=== Make the Help docs your own.
+
+You may inject partials into the interface to include information about features that are tightly coupled with the existing interface and make it appear to the users as though that is what is standard.
+
+For example, suppose a developer created a category for pages such as "hot" or "cold" (perhaps to represent the mood of the author) and she added this selection to the page editing interface with a partial injection. To the average user it would appear that the "hot" or "cold" selection was a part of the CMS, so it would be important to add a reference to the new feature within the documentation for the basic pieces of Radiant.
+
+=== Start with a clean slate.
+
+Registering information in the database is an easy way to provide information without regard to the other content provided by Help. Extensions that create a way to manage data outside of the page/layout/snippet interfaces would be served well by this feature of Help.
+
+If, for example, your extension adds 2 tabs to the interface where users manage unrelated information you could create information in the database to address the functions of each tab without regard to the other.
+
+=== Features
+
+If you are building an extension and are considering using Help, keep these features in mind:
+
+1. RDoc Files - No Failures if Help is not installed, clean slate of (role-based) information, all information (per role) is provided on one screen
+2. Partial Injection - Will fail if Help is not installed, integrated with the standard (per role) help information, easy to break up topics in to small parts
+3. Database Registered - Will fail if Help is not installed, clean slate of (non-role-based) information, easy to break up topics in to small parts
+
 == RDoc Help Files
 
 Help looks through all of your installed extensions to find relevant HELP.rdoc files. These files must follow the naming conventions of:
@@ -20,7 +50,7 @@ These files must be placed in the root of your extension. If you do not wish to 
 
 You may inject partials into the interface by adding code such this into your extension's activate method:
 
-    admin.help.index.add :main, "client_welcome", :before => "introduction"
+  admin.help.index.add :main, "client_welcome", :before => "introduction"
 
 * "admin.help.index" refers to the main help page (the help index) and ".add" is called to add information to the section provided in the next argument. 
 * ":main" is the argument that specifies which section will receive your partial. 
@@ -42,24 +72,24 @@ Those helper methods make use of the admin? and developer? helpers provided by R
 
 Registering your help documentation in the database presents your information in a list of "Additional Features" on the Basic help screen. You can register your help information in the database with:
 
-	HelpfulExtension.register()
+  HelpfulExtension.register()
 
 You may then add information to your registered extension with:
 
-	Help.create()
+  Help.create()
 	
 This, for example, would go in a migration for your extension:
 
-    @my_help = HelpfulExtension.register(:name => 'Featured_Pages', :author_name => 'Saturn Flyer', :author_contact => 'http://www.saturnflyer.com')
-    @my_help.helps.create(:topic => 'Selecting Pages to Feature', :description => 'You may select a page to appear in your Featured Pages by going to the edit screen for the desired page and checking the box "Featured page".')
+  @my_help = HelpfulExtension.register(:name => 'Featured_Pages', :author_name => 'Saturn Flyer', :author_contact => 'http://www.saturnflyer.com')
+  @my_help.helps.create(:topic => 'Selecting Pages to Feature', :description => 'You may select a page to appear in your Featured Pages by going to the edit screen for the desired page and checking the box "Featured page".')
 
-The :name that you choose will be used in the url, so using an underscore in place of a space may make more attractive URLs.
+The :name that you choose will be used in the url, so using an underscore in place of a space may make more attractive URLs. Each help record in the 'helps' table also has a parent_id so you can create a tree of information with topics and sub-topics about your extension.
 
 Help views are currently processed in HAML, so you can enter information into the description that HAML will understand. See http://haml.hamptoncatlin.com/docs/rdoc/classes/Haml.html for more info.
 
 You may unregister your extension (thereby deleting all help information in the database) by using:
 
-	HelpfulExtension.unregister('Featured_Pages')
+  HelpfulExtension.unregister('Featured_Pages')
 
 == Source Code
 
