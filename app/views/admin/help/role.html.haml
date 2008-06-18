@@ -4,9 +4,7 @@
 .Help
   = render :partial => 'help_nav'
   .MainTopics
-    %h1
-      = rdoc_extension_dir(@rdoc).titleize 
-      Extension
-    = SM::SimpleMarkup.new.convert(File.read(@rdoc), SM::ToHtml.new)
+    %h1= "#{@role.titleize} Help"
+    = render :partial => "admin/help/#{@role}_index"
   = render :partial => 'additional_features_list', :locals => {:extensions => @extensions}    
-  = render :partial => 'rdocs_list', :locals => {:rdocs => @rdocs}
+  = render :partial => 'admin/help/rdocs_list', :locals => {:rdocs => @rdocs, :role => @role}

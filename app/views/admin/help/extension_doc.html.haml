@@ -4,10 +4,10 @@
 .Help
   = render :partial => 'help_nav'
   .MainTopics
-    %h1= @cms_name + " Help"
-    - render_region :main do |main|
-      = main.render_region :introduction
-      = main.render_region :organizing
-      = main.render_region :editing
+    %h1= "#{@rdoc_name} Extension"
+    - if @rdoc
+      = SM::SimpleMarkup.new.convert(File.read(@rdoc), SM::ToHtml.new)
+    - else
+      %p= "Sorry. We couldn't find information about the #{@rdoc_name} Extension#{' for the role: ' + @role unless @role.to_s == 'all'}."
   = render :partial => 'additional_features_list', :locals => {:extensions => @extensions}    
   = render :partial => 'rdocs_list', :locals => {:rdocs => @rdocs, :role => @role}

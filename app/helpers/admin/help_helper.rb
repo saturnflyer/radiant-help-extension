@@ -15,7 +15,7 @@ module Admin::HelpHelper
     ret << "</ul>\n"
   end
   
-  # This doesn't work yet...
+  # This code doesn't work...
   # ready for more roles when they appear in Radiant
   # %{admin developer}.each do |role|
   #   define_method("#{role}_help") do |block|

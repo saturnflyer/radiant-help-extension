@@ -1,4 +1,4 @@
-- unless extensions.blank?
+- if !extensions.blank? && @role.to_s == 'all'
   .Extensions
     %h2 Additional Features
     = render :partial => 'features_introduction'

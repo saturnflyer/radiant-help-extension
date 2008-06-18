@@ -1,8 +1,0 @@
-- unless rdocs.blank?
-  .Rdocs
-    %h2 Developer Help Documents
-    = render :partial => 'admin/help/developing/rdocs_developing_introduction'
-    - rdocs.each do |rdoc|
-      %h3
-        - rdoc_name = rdoc_extension_dir(rdoc)
-        = link_to rdoc_name.titleize, help_developing_docs_url(rdoc_name)

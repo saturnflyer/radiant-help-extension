@@ -13,13 +13,10 @@ class HelpExtension < Radiant::Extension
   
   define_routes do |map|
     map.with_options :controller => 'admin/help', :conditions => {:method => :get} do |help|
-      help.help 'admin/help', :action => 'index'
-      help.help_developing 'admin/help/developing', :action => 'developing'
-      help.help_developing_docs 'admin/help/developing/docs/:extension_name', :action => 'developing_docs'
-      help.help_administering 'admin/help/administering', :action => 'administering'
-      help.help_administering_docs 'admin/help/administering/docs/:extension_name', :action => 'administering_docs'
-      help.help_docs 'admin/help/docs/:extension_name', :action => 'docs'
+      help.help_role 'admin/help_role/:role', :action => 'role'
+      help.help_extension_doc 'admin/help_extension/:extension_name/:role', :action => 'extension_doc', :role => 'all'
       help.help_extension 'admin/help/:extension_name', :action => 'show'
+      help.help 'admin/help', :action => 'index'
     end
   end
   
@@ -56,7 +53,6 @@ class HelpExtension < Radiant::Extension
   
   def deactivate
     # This never happens
-    # TODO: look into ideas like mixology to bring this back http://www.somethingnimble.com/bliki/mixology
   end
   
   private
@@ -74,7 +70,7 @@ class HelpExtension < Radiant::Extension
       help.show = Radiant::AdminUI::RegionSet.new do |show|
         # show.
       end
-      # help.developing = Radiant::AdminUI::RegionSet.new do |developing|
+      # help.developing.index = Radiant::AdminUI::RegionSet.new do |developing|
       #   developing.rdocs_developing.concat %w{rdocs_developing_introduction}
       # end
       # help.adminsistering = Radiant::AdminUI::RegionSet.new do |adminsistering|

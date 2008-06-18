@@ -1,8 +1,0 @@
-- content_for :page_css do
-  = render :partial => 'styles.html.haml'
-    
-.Help
-  = render :partial => 'help_nav'
-  .MainTopics
-    %h1= "Administering #{@cms_name}"
-  = render :partial => 'admin/help/administering/rdocs_list', :locals => {:rdocs => @rdocs}

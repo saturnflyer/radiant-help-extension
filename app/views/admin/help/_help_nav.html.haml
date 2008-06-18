@@ -1,7 +1,7 @@
 .HelpNav
   %p 
-    = link_to "Basics", help_url
-    - developer_help do
-      = link_to "Developing", help_developing_url
+    = link_to "The Basics", help_url
     - admin_help do
-      = link_to "Administering", help_administering_url
+      = link_to "Administering", help_role_url(:admin)
+    - developer_help do
+      = link_to "Developing", help_role_url(:developer)
