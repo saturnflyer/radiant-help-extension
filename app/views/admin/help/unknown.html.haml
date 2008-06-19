@@ -4,6 +4,10 @@
   -[:version,:description,:url].each do |method|
     -if @sought_constant.respond_to?(method)
       %p= "#{@sought} <strong>#{method}</strong> is: #{@sought_constant.send(method)}"
+  %p But here are the defined methods:
+  %blockquote= @sought_constant.methods.sort.to_sentence
+  %p And the defined constants:
+  %blockquote= @sought_constant.constants.sort.to_sentence
 - else
   %h1= "#{@sought}?"
   %p I can't find any information about that. Perhaps you typed something incorrectly in the url

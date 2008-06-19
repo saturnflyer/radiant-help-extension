@@ -1,0 +1,4 @@
+.tag-description
+  %h4= "&lt;r:#{tag_name} /&gt;"
+  %div= description
+  %p= "Avaliable on #{classes.map{|c| c.titleize.gsub(/ Page$/, '')}.sort.to_sentence}."
