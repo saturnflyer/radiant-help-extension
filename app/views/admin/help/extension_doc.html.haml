@@ -4,10 +4,12 @@
 .Help
   = render :partial => 'help_nav'
   .MainTopics
-    %h1= "#{@rdoc_name} Extension"
-    - if @rdoc
-      = SM::SimpleMarkup.new.convert(File.read(@rdoc), SM::ToHtml.new)
+    %h1= "#{@doc_name} Extension"
+    - if @doc
+      = SM::SimpleMarkup.new.convert(File.read(@doc), SM::ToHtml.new)
     - else
-      %p= "Sorry. We couldn't find information about the #{@rdoc_name} Extension#{' for the role: ' + @role unless @role.to_s == 'all'}."
-  = render :partial => 'additional_features_list', :locals => {:extensions => @extensions}    
-  = render :partial => 'rdocs_list', :locals => {:rdocs => @rdocs, :role => @role}
+      %p= "Sorry. We couldn't find information about the #{@doc_name} Extension#{' for the role: ' + @role unless @role.to_s == 'all'}."
+  .Extras 
+    - render_region :extras do |extras|
+      %h2 This does not show up for some very strange reason.
+      - extras.render_region :extension_docs_list 

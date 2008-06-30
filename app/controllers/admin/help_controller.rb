@@ -3,27 +3,20 @@ class Admin::HelpController < ApplicationController
   
   def index
     @role = params[:role].nil? ? 'all' : params[:role]
-    @rdocs = HelpRdoc.find(:all)
+    @docs = HelpDoc.find_for(:all)
     @file_not_found_page = Page.find(:first, :conditions => {:class_name => 'FileNotFoundPage'})
     @layouts = Layout.find(:all)
     @filters = TextFilter.descendants.uniq
     @cms_name ||= Radiant::Config['admin.title']
-    @extensions = HelpfulExtension.find(:all)
   end
   
   def show
     @role = params[:role].nil? ? 'all' : params[:role]
     @sought = params[:extension_name].camelize
     @sought_constant = @sought.constantize
-    @rdocs = HelpRdoc.find(:all)
-    @extensions = HelpfulExtension.find(:all)
-    @extension = HelpfulExtension.find_by_name(@sought)
-    unless @extension.nil?
-      @helps = @extension.helps.find(:all, :conditions => {:parent_id => nil})
-    else
-      @helps = nil
-      render :action => 'unknown'
-    end
+    @docs = HelpDoc.find_for(:all)
+    @helps = nil
+    render :action => 'unknown'
   rescue NameError
     render :action => 'unknown'
   end
@@ -32,16 +25,20 @@ class Admin::HelpController < ApplicationController
   end
   
   def role
-    @role = params[:role].nil? ? 'all' : params[:role]
-    @rdocs = HelpRdoc.find(@role)
-    @extensions = HelpfulExtension.find(:all)
+    if params[:role].nil?
+      @role = 'all'
+      flash[:error] = "Sorry. I couldn't find any documentation for your request so you've been redirected to this page."
+      redirect_to help_url
+    else
+      @role = params[:role]
+    end
+    @docs = HelpDoc.find_for(@role)
   end
   
   def extension_doc
     @role = params[:role].nil? ? 'all' : params[:role]
-    @rdocs = HelpRdoc.find(@role)
-    @rdoc_name = params[:extension_name].titleize
-    @rdoc = HelpRdoc.find(@role,params[:extension_name])
-    @extensions = HelpfulExtension.find(:all)
+    @docs = HelpDoc.find_for(@role)
+    @doc_name = params[:extension_name].titleize
+    @doc = HelpDoc.find_for(@role,params[:extension_name]).first
   end
 end

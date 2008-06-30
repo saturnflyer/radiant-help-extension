@@ -6,8 +6,10 @@
   .MainTopics
     %h1= @cms_name + " Help"
     - render_region :main do |main|
-      = main.render_region :introduction
-      = main.render_region :organizing
-      = main.render_region :editing
-  = render :partial => 'additional_features_list', :locals => {:extensions => @extensions}    
-  = render :partial => 'rdocs_list', :locals => {:rdocs => @rdocs, :role => @role}
+      - main.render_region :introduction
+      - main.render_region :organizing
+      - main.render_region :editing
+  .Extras
+    - render_region :extras do |extras|
+      %h2 This does not show up for some very strange reason.
+      - extras.render_region :extension_docs_list 

@@ -1,15 +1,19 @@
 %h2 Editing Pages
 %h3 Page Details
-%p Each page has information that is used when your pages are generated. When you type your Page Title, the page Slug and Breadcrumb are automatically typed for you (click the 'More' link below the title to see these details). The slug is arguably the most important of these because it determines where your page will be found when visitors browse your website.
-%h4 What is the Slug? 
-%p It's the smallest part of the page URL.
-%p If you want your "About Us" page to be found in a location such as yoursite.com/about, then the Slug for your "About Us" page is "about".
-%p Likewise, if the "About Us" page has any children, such as a "Management Team" page, then the location of that page might be yoursite.com/about/management-team. In this case, the Slug for the "Management Team" page is "management-team".
-%h4 Why do I need a Slug?
-%p You may not want to make changes to it, but if you do you may make your "About Us" page available at yoursite.com/about or yoursite.com/about-us or yoursite.com/allaboutus... It's up to you.
-%h4 Breadcrumb
-%p Breadcrumbs trace your path from the home page to where your are. If you're on the "Management Team" page, for example, your breadcrumbs might look like this: Home > About Us > Management Team
-%p The Breadcrumb field allows you to edit the text that will be displayed if and when your website uses breadcrumbs.
+- render_region :page_details do |page_details|
+  - page_details.page_details_introduction do
+    %p Each page has information that is used when your pages are generated. When you type your Page Title, the page Slug and Breadcrumb are automatically typed for you (click the 'More' link below the title to see these details). The slug is arguably the most important of these because it determines where your page will be found when visitors browse your website.
+  - page_details.slug do
+    %h4 What is the Slug? 
+    %p It's the smallest part of the page URL.
+    %p If you want your "About Us" page to be found in a location such as yoursite.com/about, then the Slug for your "About Us" page is "about".
+    %p Likewise, if the "About Us" page has any children, such as a "Management Team" page, then the location of that page might be yoursite.com/about/management-team. In this case, the Slug for the "Management Team" page is "management-team".
+    %h4 Why do I need a Slug?
+    %p You may not want to make changes to it, but if you do you may make your "About Us" page available at yoursite.com/about or yoursite.com/about-us or yoursite.com/allaboutus... It's up to you.
+  - page_details.breadcrumb do
+    %h4 Breadcrumb
+    %p Breadcrumbs trace your path from the home page to where your are. If you're on the "Management Team" page, for example, your breadcrumbs might look like this: Home > About Us > Management Team
+    %p The Breadcrumb field allows you to edit the text that will be displayed if and when your website uses breadcrumbs.
 %h3 Filter
 - render_region :filter do |filter|
   - filter.filter_basics do
@@ -24,29 +28,37 @@
       %li scroll through the documentation that appears to find out more about using your selected Filter.
     %p If you ever need help with formatting your text, the information is right where you need it.
 %h3 Available Tags
-%p The typical user won't need to worry much about Tags, but you have the flexibility to display your website content in many ways. These Tags are commonly used by admins and developers. Here's a quick and limited example of what can be done:
-%pre
-  &== <r:find url="/about"><r:content part="contact" /></r:find>
-%p That example finds the page with "about" for the Slug, and outputs the content of the "contact" part.
-%p Much more can be done, but these Tags should be used with caution if you are unfamiliar with them.
+- render_region :available_tags do |available_tags|
+  - available_tags.available_tags_basics do
+    %p The typical user won't need to worry much about Tags, but you have the flexibility to display your website content in many ways. These Tags are commonly used by admins and developers. Here's a quick and limited example of what can be done:
+    %pre
+      &== <r:find url="/about"><r:content part="contact" /></r:find>
+    %p That example finds the page with "about" for the Slug, and outputs the content of the "contact" part.
+    %p Much more can be done, but these Tags should be used with caution if you are unfamiliar with them.
 %h3 Layout
-%p 
-  Different Layouts may be created for your website. For a small site you may have only one, or for a large site there may be more options. The Layouts created for your site are:
-  = @layouts.collect(&:name).to_sentence(:connector => 'and', :skip_last_comma => true)
-%p Layouts determine how your content will be displayed. Typically a Layout is created for the Home page and all of its child pages inherit that layout from it. It's likely that you don't need to make any changes to this setting on the pages that you edit, but talk to the administrator or designer of your site to find out what layout to choose.
+- render_region :layout do |layout|
+  - layout.layout_basics do
+    %p 
+      Different Layouts may be created for your website. For a small site you may have only one, or for a large site there may be more options. The Layouts created for your site are:
+      = @layouts.collect(&:name).to_sentence(:connector => 'and', :skip_last_comma => true)
+    %p Layouts determine how your content will be displayed. Typically a Layout is created for the Home page and all of its child pages inherit that layout from it. It's likely that you don't need to make any changes to this setting on the pages that you edit, but talk to the administrator or designer of your site to find out what layout to choose.
 %h3 Page Type
-%p 
-  The Page Type determines how the page will behave. This website, for example,
-  - unless @file_not_found_page.nil?
-    = "has the page \"#{@file_not_found_page.title}\"."
-  - else
-    doesn't have a File Not Found Page.
-  = "A #{FileNotFoundPage.display_name} page will be displayed to anyone requesting a page that does not exist. This allows you to customize the message to your website visitors if they try to find a page like yoursite.com/non-existant-page"
-%h3 Status
-%p The Status of a page helps to determine how it will be displayed to visitors of your site, but also helps you manage your content internally. Only 'Published' pages are displayed to the public, but if you need to hide a previously published page, you can set the Status to 'Hidden'
-%p 'Draft' and 'Reviewed' allow you to set a Status that gives you information about the readiness of that page to be displayed to your website visitors.
-%p One person on your team, for example may write content for one page and then set it to 'Draft'. Another team member can then check the content of the draft and set it to 'Reviewed'. When ready, you can then set the page status to 'Published'. These steps, of course, aren't necessary, but they are available if you need them.
+- render_region :page_type do |page_type|
+  - page_type.page_type_basics do
+    %p 
+      & The Page Type determines how the page will behave. This website, for example,
+      - unless @file_not_found_page.nil?
+        = "has the page \"#{@file_not_found_page.title}\"."
+      - else
+        doesn't have a File Not Found Page.
+      = "A #{FileNotFoundPage.display_name} page will be displayed to anyone requesting a page that does not exist. This allows you to customize the message to your website visitors if they try to find a page like yoursite.com/non-existant-page"
+    %h3 Status
+    %p The Status of a page helps to determine how it will be displayed to visitors of your site, but also helps you manage your content internally. Only 'Published' pages are displayed to the public, but if you need to hide a previously published page, you can set the Status to 'Hidden'
+    %p 'Draft' and 'Reviewed' allow you to set a Status that gives you information about the readiness of that page to be displayed to your website visitors.
+    %p One person on your team, for example may write content for one page and then set it to 'Draft'. Another team member can then check the content of the draft and set it to 'Reviewed'. When ready, you can then set the page status to 'Published'. These steps, of course, aren't necessary, but they are available if you need them.
 %h3 Saving your changes
-%p By selecting "Save Changes", your page content will be saved and you will return to the page index.
-%p By selecting "Save and Continue Editing", your page content will be saved and you will return to the same page edit screen. This is useful if you would like to make a change to view on your public website, but continue making changes after rewiewing your change.
-%p You may also "Cancel" any changes in which case your changes will not be saved and you will return to the page index.
+- render_region :saving do |saving|
+  - saving.saving_basics do
+    %p By selecting "Save Changes", your page content will be saved and you will return to the page index.
+    %p By selecting "Save and Continue Editing", your page content will be saved and you will return to the same page edit screen. This is useful if you would like to make a change to view on your public website, but continue making changes after rewiewing your change.
+    %p You may also "Cancel" any changes in which case your changes will not be saved and you will return to the page index.

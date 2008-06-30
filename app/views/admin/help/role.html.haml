@@ -5,6 +5,8 @@
   = render :partial => 'help_nav'
   .MainTopics
     %h1= "#{@role.titleize} Help"
-    = render :partial => "admin/help/#{@role}_index"
-  = render :partial => 'additional_features_list', :locals => {:extensions => @extensions}    
-  = render :partial => 'admin/help/rdocs_list', :locals => {:rdocs => @rdocs, :role => @role}
+    = render :partial => "#{@role}_index"
+  .Extras 
+    - render_region :extras do |extras|
+      %h2 This does not show up for some very strange reason.
+      - extras.render_region :extension_docs_list 

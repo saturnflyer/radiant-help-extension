@@ -13,8 +13,8 @@ class HelpExtension < Radiant::Extension
   
   define_routes do |map|
     map.with_options :controller => 'admin/help', :conditions => {:method => :get} do |help|
-      help.help_role 'admin/help_role/:role', :action => 'role'
-      help.help_extension_doc 'admin/help_extension/:extension_name/:role', :action => 'extension_doc', :role => 'all'
+      help.help_role 'admin/role_help/:role', :action => 'role', :role => nil
+      help.help_extension_doc 'admin/extension_help/:extension_name/:role', :action => 'extension_doc', :role => 'all'
       help.help_extension 'admin/help/:extension_name', :action => 'show'
       help.help 'admin/help', :action => 'index'
     end
@@ -62,11 +62,19 @@ class HelpExtension < Radiant::Extension
     returning OpenStruct.new do |help|
       help.index = Radiant::AdminUI::RegionSet.new do |index|
         index.main.concat %w{introduction organizing editing}
+        index.page_details.concat %w{page_details_introduction slug breadcrumb}
         index.filter.concat %w{filter_basics}
-        index.additional.concat %w{features_introduction}
+        index.available_tags.concat %w{available_tags_basics}
+        index.layout.concat %w{layout_basics}
+        index.page_type.concat %w{page_type_basics}
+        index.saving.concat %w{saving_basics}
+        index.extras.concat %w{extension_docs_list}
       end
-      help.show = Radiant::AdminUI::RegionSet.new do |show|
-        # show.
+      help.role = Radiant::AdminUI::RegionSet.new do |role|
+        role.extras.concat %w{extension_docs_list}
+      end
+      help.extension_doc = Radiant::AdminUI::RegionSet.new do |extension_doc|
+        extension_doc.extras.concat %w{extension_docs_list}
       end
     end
   end

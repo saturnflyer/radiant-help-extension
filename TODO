@@ -1,2 +1,2 @@
 1. Add more regions
-2. Create a way to migrate up/down help info with a rake task so that help info may be hidden by an owner of the system. This would require that info NOT go in standard migrations, but that there be a separate directory such as db/help for scripts.
+2. Read multiple types of docs (markdown, textile, rdoc, txt)
