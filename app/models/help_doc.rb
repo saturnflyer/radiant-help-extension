@@ -20,6 +20,8 @@ class HelpDoc
     case doc_path
     when /\.(markdown|md)$/.match(doc_path)
       HelpDoc.parsed_markdown(doc_path)
+    when /\.textile/.match(doc_path)
+      HelpDoc.parsed_textile(doc_path)
     else
       HelpDoc.parsed_rdoc(doc_path)
     end
@@ -31,5 +33,9 @@ class HelpDoc
   
   def self.parsed_markdown(doc_path)
     BlueCloth.new(File.read(doc_path)).to_html
+  end
+  
+  def self.parsed_textile(doc_path)
+    RedCloth.new(File.read(doc_path)).to_html
   end
 end

@@ -11,6 +11,7 @@ describe HelpDoc, "given existing extension docs" do
 help for developers in rdoc') }
     File.open("#{@test_dir}/HELP_admin.markdown", 'wb') {|f| f.write('help for admins in **markdown**') }
     File.open("#{@test_dir}/HELP_imaginary.md", 'wb') {|f| f.write('help for non-existent role in **markdown**') }
+    File.open("#{@test_dir}/HELP_other.textile", 'wb') {|f| f.write('help for _another_ non-existent role in *textile*') }
   end
   
   after(:all) do
@@ -44,7 +45,6 @@ help for developers in rdoc') }
     it "should find extension docs for admins named 'HELP_admin' and end with an optional file extension" do
       lambda do
         HelpDoc.find_for(:admin).each do |doc|
-          puts doc
           raise Exception unless /HELP_admin(\.[\w]+)?$/.match(doc)
         end
       end.should_not raise_error(Exception)
@@ -71,12 +71,17 @@ help for developers in rdoc') }
 
     it "should return Markdown formatted contents of a given extension doc ending in '.markdown'" do
       test_doc = HelpDoc.find_for(:admin, @test_ext_name).first
-      HelpDoc.formatted_contents_from(test_doc).should == "<p>help for admins in <strong>markdown</strong></p>"
+      HelpDoc.formatted_contents_from(test_doc).should == "<p>\nhelp for admins in *<b>markdown</b>*\n</p>\n"
     end
 
     it "should return Markdown formatted contents of a given extension doc ending in '.md'" do
       test_doc = HelpDoc.find_for(:imaginary, @test_ext_name).first
-      HelpDoc.formatted_contents_from(test_doc).should == "<p>help for non-existent role in <strong>markdown</strong></p>"
+      HelpDoc.formatted_contents_from(test_doc).should == "<p>\nhelp for non-existent role in *<b>markdown</b>*\n</p>\n"
+    end
+
+    it "should return Textile formatted contents of a given extension doc ending in '.textile'" do
+      test_doc = HelpDoc.find_for(:other, @test_ext_name).first
+      HelpDoc.formatted_contents_from(test_doc).should == "<p>\nhelp for <em>another</em> non-existent role in <b>textile</b>\n</p>\n"
     end
   
   end
@@ -89,6 +94,11 @@ help for developers in rdoc') }
   it "should call parsed_markdown and return HTML from Markdown formatted text" do
     test_doc = HelpDoc.find_for(:admin, @test_ext_name).first
     HelpDoc.parsed_markdown(test_doc).should == "<p>help for admins in <strong>markdown</strong></p>"
+  end
+  
+  it "should call parsed_textile and return HTML from Textile formatted text" do
+    test_doc = HelpDoc.find_for(:other, @test_ext_name).first
+    HelpDoc.parsed_markdown(test_doc).should == "<p>help for <em>another</em> non-existent role in <strong>textile</strong></p>"
   end
     
 end
