@@ -10,20 +10,6 @@ class Admin::HelpController < ApplicationController
     @cms_name = Radiant::Config['admin.title']
   end
   
-  def show
-    @role = params[:role].nil? ? 'all' : params[:role]
-    @sought = params[:extension_name].camelize
-    @sought_constant = @sought.constantize
-    @docs = HelpDoc.find_for(:all)
-    @helps = nil
-    render :action => 'unknown'
-  rescue NameError
-    render :action => 'unknown'
-  end
-  
-  def unknown
-  end
-  
   def role
     if params[:role].nil?
       @role = 'all'
@@ -32,7 +18,12 @@ class Admin::HelpController < ApplicationController
     else
       @role = params[:role]
     end
-    @docs = HelpDoc.find_for(@role)
+    if File.exists?("#{RAILS_ROOT}/vendor/extensions/help/app/views/admin/help/_#{@role}_index.html.haml")
+      @docs = HelpDoc.find_for(@role)
+    else
+      flash[:error] = "Information for the '#{@role}' role could not be found."
+      redirect_to help_url
+    end
   end
   
   def extension_doc

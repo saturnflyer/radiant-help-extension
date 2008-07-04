@@ -15,7 +15,6 @@ class HelpExtension < Radiant::Extension
     map.with_options :controller => 'admin/help', :conditions => {:method => :get} do |help|
       help.help_role 'admin/role_help/:role', :action => 'role', :role => nil
       help.help_extension_doc 'admin/extension_help/:extension_name/:role', :action => 'extension_doc', :role => 'all'
-      help.help_extension 'admin/help/:extension_name', :action => 'show'
       help.help 'admin/help', :action => 'index'
     end
   end

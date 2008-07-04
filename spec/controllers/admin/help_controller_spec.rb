@@ -47,9 +47,29 @@ describe Admin::HelpController do
     
     it "should find the first FileNotFoundPage and assign it to the view" do
       @page404 = mock_model(Page, :class_name => 'FileNotFoundPage') 
-      # Page.stub!(:find).with(:first).with(:conditions)#.and_return(@page404)
+      Page.stub!(:find).with(:first).with(:conditions).and_return(@page404)
       get :index
       assigns[:file_not_found_page] == @page404
     end
+  end
+  
+  describe "calling extension_doc with GET" do
+    it "should load the role from the params or set it to 'all' and assign it to the view"
+    
+    it "should find all HelpDocs for the given role and assign them to the view"
+    
+    it "should get the doc_name from the URL extension_name and assign it to the view"
+    
+    it "should find the HelpDoc for the given role and extension_name"
+  end
+  
+  describe "calling role with GET" do
+    it "should find the HelpDocs for the given role and assign them to the view"
+    
+    it "should redirect to the help index if given no role"
+    
+    it "should redirect to the help index if information for the given role is not found"
+    
+    
   end
 end
