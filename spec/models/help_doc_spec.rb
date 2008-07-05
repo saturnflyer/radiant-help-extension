@@ -98,7 +98,7 @@ help for developers in rdoc') }
   
   it "should call parsed_textile and return HTML from Textile formatted text" do
     test_doc = HelpDoc.find_for(:other, @test_ext_name).first
-    HelpDoc.parsed_markdown(test_doc).should == "<p>help for <em>another</em> non-existent role in <strong>textile</strong></p>"
+    HelpDoc.parsed_textile(test_doc).should == "<p>help for <em>another</em> non-existent role in <strong>textile</strong></p>"
   end
     
 end
