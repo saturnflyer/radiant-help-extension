@@ -6,7 +6,7 @@ Installing Help is as easy as any other Radiant extension. Drop it into your ven
 
 rake radiant:extensions:help:migrate
 
-The Help extension creates the 'helpful_extensions' and 'helps' tables into which other extensions may provide their documentation. Once the extension is installed, you must ensure that your application will load the Help extension before loading any registered extensions. To do so, edit your config/environment.rb to load Help first:
+Once the extension is installed, you must ensure that your application will load the Help extension before loading any registered extensions. To do so, edit your config/environment.rb to load Help first:
 
 Radiant::Initializer.run do |config|
 ...
@@ -18,6 +18,6 @@ Help provides basic information for the average user at admin/help, but also pro
 
 For more information about developing for Help, install it and go to /admin/help_extension/help/developer or read the included HELP_developer.rdoc
 
-Some content taken from http://radiantcms.org/[http://radiantcms.org/]
+Some content taken from http://radiantcms.org/
 
-Built by Saturn Flyer http://www.saturnflyer.com[http://www.saturnflyer.com]
+Built by Saturn Flyer http://www.saturnflyer.com

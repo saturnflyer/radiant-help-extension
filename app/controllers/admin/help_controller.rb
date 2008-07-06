@@ -15,6 +15,7 @@ class Admin::HelpController < ApplicationController
       @role = 'all'
       flash[:error] = "Sorry. I couldn't find any documentation for your request so you've been redirected to this page."
       redirect_to help_url
+      return
     else
       @role = params[:role]
     end
@@ -23,6 +24,7 @@ class Admin::HelpController < ApplicationController
     else
       flash[:error] = "Information for the '#{@role}' role could not be found."
       redirect_to help_url
+      return
     end
   end
   

@@ -2,7 +2,7 @@ Developing for Help is easy.
 
 If you'd like to include help information for your own extensions you have some options. You may
 
-1. Create plain text help files (formatted in RDoc syntax)
+1. Create plain text help files (formatted in RDoc, Markdown, or Textile syntax)
 2. Inject partials into the Help interface
 
 == Multiple Options

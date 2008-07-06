@@ -46,30 +46,65 @@ describe Admin::HelpController do
     end
     
     it "should find the first FileNotFoundPage and assign it to the view" do
-      @page404 = mock_model(Page, :class_name => 'FileNotFoundPage') 
-      Page.stub!(:find).with(:first).with(:conditions).and_return(@page404)
+      @page404 = mock_model(Page, :class_name => 'FileNotFoundPage')
+      Page.should_receive(:find).with(:first,{:conditions => {:class_name => 'FileNotFoundPage'}}).and_return(@page404)
       get :index
-      assigns[:file_not_found_page] == @page404
+      assigns[:file_not_found_page].should == @page404
     end
   end
   
   describe "calling extension_doc with GET" do
-    it "should load the role from the params or set it to 'all' and assign it to the view"
+    it "should load the role from the params and assign it to the view" do
+      get :extension_doc, :extension_name => 'help', :role => 'developer'
+      assigns[:role].should == 'developer'
+    end
     
-    it "should find all HelpDocs for the given role and assign them to the view"
+    it "should set the role to 'all' if none is present in the params and assign it to the view" do
+      get :extension_doc, :extension_name => 'help'
+      assigns[:role].should == 'all'
+    end
     
-    it "should get the doc_name from the URL extension_name and assign it to the view"
+    it "should find all HelpDocs for the given role and assign them to the view" do
+      @doc1 = "/path/to/test1/HELP_admin.rdoc"
+      @doc2 = "/path/to/test2/HELP_admin.rdoc"
+      HelpDoc.should_receive(:find_for).with("admin").and_return([@doc1,@doc2])
+      HelpDoc.stub!(:find_for).with("admin","test1").and_return([@doc1])
+      get :extension_doc, :extension_name => 'test1', :role => 'admin'
+      assigns[:docs].should == [@doc1,@doc2]
+    end
     
-    it "should find the HelpDoc for the given role and extension_name"
+    it "should get the doc_name from the URL extension_name and assign it to the view" do
+      get :extension_doc, :extension_name => 'help', :role => 'developer'
+      assigns[:doc_name].should == 'Help'
+    end
+    
+    it "should find the HelpDoc for the given role and extension_name" do
+      @doc1 = "/path/to/test1/HELP_developer.rdoc"
+      @doc2 = "/path/to/test2/HELP_developer.rdoc"
+      HelpDoc.stub!(:find_for).with("developer").and_return([@doc1,@doc2])
+      HelpDoc.should_receive(:find_for).with("developer","test1").and_return([@doc1])
+      get :extension_doc, :extension_name => 'test1', :role => 'developer'
+      assigns[:doc].should == @doc1
+    end
   end
   
   describe "calling role with GET" do
-    it "should find the HelpDocs for the given role and assign them to the view"
+    it "should find the HelpDocs for the given role and assign them to the view" do
+      @doc1 = "/path/to/test1/HELP_admin.rdoc"
+      @doc2 = "/path/to/test2/HELP_admin.rdoc"
+      HelpDoc.should_receive(:find_for).with("admin").and_return([@doc1,@doc2])
+      get :role, :role => 'admin'
+      assigns[:docs].should == [@doc1,@doc2]
+    end
     
-    it "should redirect to the help index if given no role"
+    it "should redirect to the help index if given no role" do
+      get :role
+      response.should redirect_to(:action => 'index')
+    end
     
-    it "should redirect to the help index if information for the given role is not found"
-    
-    
+    it "should redirect to the help index if information for the given role is not found" do
+      get :role, :role => 'imaginary'
+      response.should redirect_to(:action => 'index')
+    end
   end
 end
