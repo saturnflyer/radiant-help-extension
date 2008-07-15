@@ -1,7 +1,7 @@
 :sass
   .Help
     :color #222
-    :font-family helvetica
+
     :font-size 16px
     :overflow hidden
     :min-width 900px
@@ -79,3 +79,14 @@
         :width 99%
         :white-space pre-wrap
         :word-wrap break-word
+  @media print
+    #header, #footer, .HelpNav, .Extras, hr
+      :display none
+    #footer
+      :display none
+    .MainTopics
+      :min-width 90%
+    body
+      :background-color white
+      :font-family "Cambria", "Hoefler Text", "Georgia", "Times New Roman", times, serif
+      :font-size 12pt
