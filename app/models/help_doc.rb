@@ -17,10 +17,9 @@ class HelpDoc
   end
   
   def self.formatted_contents_from(doc_path)
-    case doc_path
-    when /\.(markdown|md)$/.match(doc_path)
+    if doc_path.end_with?('markdown') || doc_path.end_with?('md')
       HelpDoc.parsed_markdown(doc_path)
-    when /\.textile/.match(doc_path)
+    elsif doc_path.end_with?('textile')
       HelpDoc.parsed_textile(doc_path)
     else
       HelpDoc.parsed_rdoc(doc_path)

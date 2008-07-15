@@ -32,6 +32,7 @@ class Admin::HelpController < ApplicationController
     @role = params[:role].nil? ? 'all' : params[:role]
     @docs = HelpDoc.find_for(@role)
     @doc_name = params[:extension_name].titleize
-    @doc = HelpDoc.find_for(@role,params[:extension_name]).first
+    @doc_path = HelpDoc.find_for(@role,params[:extension_name]).first
+    @doc = HelpDoc.formatted_contents_from(@doc_path)
   end
 end

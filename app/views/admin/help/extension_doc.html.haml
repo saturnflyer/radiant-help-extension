@@ -5,8 +5,8 @@
   = render :partial => 'help_nav'
   .MainTopics
     %h1= "#{@doc_name} Extension"
-    - if @doc
-      = SM::SimpleMarkup.new.convert(File.read(@doc), SM::ToHtml.new)
+    - if @doc_path
+      = @doc
     - else
       %p= "Sorry. We couldn't find information about the #{@doc_name} Extension#{' for the role: ' + @role unless @role.to_s == 'all'}."
   .Extras 

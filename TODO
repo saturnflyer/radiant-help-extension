@@ -1,2 +1,6 @@
-1. Add more regions
-2. Read multiple types of docs (markdown, textile, rdoc, txt)
+1. Add images
+2. Better styling
+3. Javascript to hide/show features
+4. Integrate full tag list search for developer view
+5. Show README and TODO files to admins
+6. Tests for the views!
