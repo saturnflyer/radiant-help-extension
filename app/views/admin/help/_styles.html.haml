@@ -5,33 +5,41 @@
     :overflow hidden
     :min-width 900px
     .HelpNav
-      :background #eee
+      :background rgb(245, 241, 226)
+      :border 1px solid rgb(234, 227, 197)
       :margin 0 0 12px 0
       :padding 5px 0
       p
         :margin 0
         :padding 0
       a
-        :color #00e
+        :color #000
         :line-height 1.8
         :margin 0 -4px 0 1px
         :padding 9px 10px
+        :text-decoration none
       a:hover
         :color #000
         :background #fff
     .Extras
-      :border 2px outset #ddd
       :float right
       :margin-top 40px
-      :padding-top 10px
       :padding-bottom 10px
       :width 38%
-      *
-        :margin 0 10px 4px 10px
-      * *
+      .Docs
+        :background rgb(245, 241, 226)
+        :border-bottom 2px solid rgb(234, 227, 197)
         :margin 0
-      h2
-        :color #666
+        *
+          :margin 0 10px 4px 10px
+        * *
+          :margin 0
+        h2
+          :background rgb(234, 227, 197)
+          :color #000
+          :font-weight normal
+          :margin 0 0 5px 0
+          :padding 2px 5px
       p, li
         :color #333
         :line-height 1.4
@@ -46,10 +54,10 @@
       h1
         :margin-bottom 8px
       h2
-        :border-bottom 5px solid #222
+        :border-bottom 5px solid #444
         :font-weight normal
         :font-size 1.4em
-        :margin 24px 0 10px 0
+        :margin 24px 0 5px 0
         :padding 2px 2px 2px 0
       h3
         :color #222
@@ -64,6 +72,8 @@
         :color #444
         :line-height 1.6
         :margin 0 0 16px 0
+      li
+        :margin-bottom 0
       code
         :background #eee
         :color #222

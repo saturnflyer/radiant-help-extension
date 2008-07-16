@@ -79,7 +79,7 @@ The nested if statements may be overkill but if for some reason Help regions cha
 
 == Source Code
 
-Help is made freely available at http://github.com/saturnflyer/radiant-help/
+Help is made freely available at http://github.com/saturnflyer/radiant-help-extension/
 
 Help was built by Saturn Flyer 
 

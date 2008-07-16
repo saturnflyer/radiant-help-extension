@@ -2,7 +2,9 @@
   .Docs
     %h2= "#{(@role.titleize + ' ') unless @role == 'all'}Help Documents"
     = render :partial => 'docs_introduction'
-    - @docs.each do |doc|
-      %h3
-        - doc_name = doc_extension_dir(doc)
-        = link_to doc_name.titleize, help_extension_doc_url(doc_name, @role)
+    - unless @docs.empty?
+      %ul
+      - @docs.each do |doc|
+        %li
+          - doc_name = doc_extension_dir(doc)
+          = link_to doc_name.titleize, help_extension_doc_url(doc_name, @role)
