@@ -1,28 +1,16 @@
 namespace :radiant do
-  namespace :extensions do
-    namespace :help do
-      
-      desc "Runs the migration of the Help extension"
-      task :migrate => :environment do
-        require 'radiant/extension_migrator'
-        if ENV["VERSION"]
-          HelpExtension.migrator.migrate(ENV["VERSION"].to_i)
-        else
-          HelpExtension.migrator.migrate
-        end
-      end
-      
-      desc "Copies public assets of the Help to the instance public/ directory."
-      task :update => :environment do
-        is_svn_or_dir = proc {|path| path =~ /\.svn/ || File.directory?(path) }
-        Dir[HelpExtension.root + "/public/**/*"].reject(&is_svn_or_dir).each do |file|
-          path = file.sub(HelpExtension.root, '')
-          directory = File.dirname(path)
-          puts "Copying #{path}..."
-          mkdir_p RAILS_ROOT + directory
-          cp file, RAILS_ROOT + path
-        end
-      end  
-    end
+  desc "Shows some help information"
+  task :help do
+    puts %{
+  Finding help for Radiant
+  ========================
+  The Help extension that you have installed in vendor/extensions provides information about using Radiant.
+  
+  If you need some help with your installation, try joining the Radiant email lists and ask your question there. For information visit http://radiantcms.org/mailing-list/
+
+  You may also find help from the Radiant community in the #radiantcms IRC channel on irc.freenode.net
+  
+  Lastly, checkout the companies listed at http://wiki.radiantcms.org/Radiant_Pros
+    }
   end
 end
