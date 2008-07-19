@@ -77,6 +77,12 @@ Here is an example:
 
 The nested if statements may be overkill but if for some reason Help regions change in the future, your extension will be protected from failing because a certain region does not exist.
 
+=== Expanding Documentation
+
+Each of the Radius tags displayed under the developer documentation also allows you to add more details.
+
+  admin.help.role.add 'archive:children', "all_about_archives"
+
 == Source Code
 
 Help is made freely available at http://github.com/saturnflyer/radiant-help-extension/
