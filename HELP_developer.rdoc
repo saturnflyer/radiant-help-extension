@@ -66,7 +66,7 @@ If you know that you extension will always have Help available, you may use the 
 
 Here is an example:
 
-  if admin.help
+  if admin.respond_to?(:help)
 	if admin.help.index
 	  admin.help.index.add :main, "client_welcome", :before => "introduction"
 	end
