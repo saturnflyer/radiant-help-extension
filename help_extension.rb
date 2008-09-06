@@ -45,6 +45,11 @@ class HelpExtension < Radiant::Extension
     # admin.help.main.replace('main','main_for_admins_only')
     # But I only threw this in here to allow you to change the help docs easily if you want.
     # I am merely providing the rope...
+    
+    # Finally, allow all the helpers to be used anywhere
+    ApplicationController.class_eval {
+      helper Admin::HelpHelper
+    }
   end
   
   def deactivate
