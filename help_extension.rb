@@ -11,6 +11,7 @@ class HelpExtension < Radiant::Extension
   description "Help Documentation for Radiant CMS"
   url "http://saturnflyer.com/"
   
+  # These routes are added to the radiant routes file and works just like any rails routes.
   define_routes do |map|
     map.with_options :controller => 'admin/help', :conditions => {:method => :get} do |help|
       help.help_role 'admin/role_help/:role', :action => 'role', :role => nil
@@ -20,6 +21,7 @@ class HelpExtension < Radiant::Extension
   end
   
   def activate
+    # This adds a tab to the interface after the Layouts tab, and allows all users to access it.
     admin.tabs.add "Help", "/admin/help", :after => "Layouts", :visibility => [:all]
     
     # This adds information to the Radiant interface. In this extension, we're dealing with "help" views
@@ -73,6 +75,7 @@ class HelpExtension < Radiant::Extension
       end
       help.role = Radiant::AdminUI::RegionSet.new do |role|
         role.extras.concat %w{extension_docs_list}
+        role.regions.concat %w{regions_introduction page snippet layout user extension help}
       end
       help.extension_doc = Radiant::AdminUI::RegionSet.new do |extension_doc|
         extension_doc.extras.concat %w{extension_docs_list}

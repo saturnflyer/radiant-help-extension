@@ -1,5 +1,34 @@
 %h2 Caching
 %p An optimisation feature of Radiant is the page cache, which stops it having to rebuild pages from scratch each time they are requested. However, when you edit pages, they may not seem to change when you look at the live site, particularly if the change is for children that some parent page is referencing (lists of links to children, that kind of thing). This is because the generated pages are cached for speed but at the time of writing Radiant does not flush the cache for certain kinds of page changes. To ensure that edits, additions or removals are visible on the live site, click on the Clear Page Cache button underneath the list of pages. This will of course cause a temporary performance hit as the cache must be rebuilt when pages are next fetched.
+- render_region :regions do |regions|
+  - regions.regions_introduction do
+    %h2 Regions
+    %p Listed below are the main regions that may be altered with 'partial' injection. You may inject partials into the interface by adding code such this into your extension's activate method:
+    %pre admin.help.index.add :main, "client_welcome", :before => "introduction"
+    %ul
+      %li "admin.help.index" refers to the main help page (the help index) and ".add" is called to add information to the section provided in the next argument. 
+      %li ":main" is the argument that specifies which section will receive your partial. 
+      %li "client_welcome" is the partial that you want to add and should be located in your extension directory app/views/admin/help/_client_welcome.html.haml
+      %li :before => "introduction" will place your partial before the introduction region (or you could do :after). This is optional, and if left out, your partial will be appended to the ":main" section.
+    %p Below is a rudimentary list of editable regions from the application interface
+    - regions.page do
+      %h3 Page
+      = admin.page.to_json
+    - regions.snippet do
+      %h3 Snippets
+      = admin.snippet.to_json
+    - regions.layout do
+      %h3 Layouts
+      = admin.layout.to_json
+    - regions.user do
+      %h3 Users
+      = admin.user.to_json
+    - regions.extension do
+      %h3 Extensions
+      = admin.extension.to_json
+    - regions.help do
+      %h3 Help
+      = admin.help.to_json
 %h2 Radiant Tags
 %p Now the interesting bit – the tags you can use in your layouts, snippets and page bodies to pull all the bits of your site together. This list and the description of the tags is taken from the Radiant source file app/models/page_context.rb if you want to look at the underlying implementation or check for changes if you think the documentation below may be inaccurate.
 %p Tags can only be used in page, layout or snippet content, not in names or page titles.
