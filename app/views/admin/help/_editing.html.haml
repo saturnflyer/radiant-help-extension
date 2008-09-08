@@ -46,7 +46,7 @@
 - render_region :page_type do |page_type|
   - page_type.page_type_basics do
     %p 
-      & The Page Type determines how the page will behave. This website, for example,
+      The Page Type determines how the page will behave. This website, for example,
       - unless @file_not_found_page.nil?
         = "has the page \"#{@file_not_found_page.title}\"."
       - else
