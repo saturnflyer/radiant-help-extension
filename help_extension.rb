@@ -74,8 +74,8 @@ class HelpExtension < Radiant::Extension
         index.extras.concat %w{extension_docs_list}
       end
       help.role = Radiant::AdminUI::RegionSet.new do |role|
-        role.extras.concat %w{extension_docs_list}
-        role.regions.concat %w{regions_introduction page snippet layout user extension help}
+        role.extras.concat %w{extension_docs_list regions}
+        role.regions.concat %w{regions_introduction}
       end
       help.extension_doc = Radiant::AdminUI::RegionSet.new do |extension_doc|
         extension_doc.extras.concat %w{extension_docs_list}
