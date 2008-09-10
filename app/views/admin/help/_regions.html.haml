@@ -2,20 +2,21 @@
   %h2 Radiant Regions
   %p Below is a list of editable regions from your installation of the application interface
   - [:page, :snippet, :layout, :extension, :user, :help].each do |meth|  
-    %h3= meth.to_s.camelize
-    - table = admin.send(meth).send(:instance_variable_get, "@table")
-    - unless table.empty?
-      %ul
-      - table.each do |k,v|
-        %li 
-          %h4= "#{k}"
-          - vr = v.send(:instance_variable_get, "@regions")
-          - unless vr.empty?
-            %ul 
-              - vr.each do |kk, vv|
-                %li
-                  = kk
-                  - unless vv.empty?
-                    %ul
-                      - vv.each do |vvr|
-                        %li= vvr
+    - if admin.respond_to?(meth)
+      %h3= meth.to_s.camelize
+      - table = admin.send(meth).send(:instance_variable_get, "@table")
+      - unless table.empty?
+        %ul
+        - table.each do |k,v|
+          %li 
+            %h4= "#{k}"
+            - vr = v.send(:instance_variable_get, "@regions")
+            - unless vr.empty?
+              %ul 
+                - vr.each do |kk, vv|
+                  %li
+                    = kk
+                    - unless vv.empty?
+                      %ul
+                        - vv.each do |vvr|
+                          %li= vvr
