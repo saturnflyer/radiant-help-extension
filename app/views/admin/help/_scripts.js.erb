@@ -1,0 +1,13 @@
+document.observe('dom:loaded', function(){
+  $$('div.ui_region').each(function(element){
+    element.observe('click',function(e){
+      this.down('ul').toggle();
+    });
+    element.observe('mouseover',function(e){
+      e.target.up('div').addClassName('over');
+    });
+    element.observe('mouseout',function(e){
+      e.target.up('div').removeClassName('over');
+    });
+  });
+})

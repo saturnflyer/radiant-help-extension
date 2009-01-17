@@ -1,5 +1,7 @@
 - content_for :page_css do
   = render :partial => 'styles.html.haml'
+- content_for :page_scripts do
+  = render :partial => 'scripts.js.erb'
 
 .Help
   = render :partial => 'help_nav'
