@@ -1,5 +1,5 @@
 %h2 Caching
-%p An optimisation feature of Radiant is the page cache, which stops it having to rebuild pages from scratch each time they are requested. However, when you edit pages, they may not seem to change when you look at the live site, particularly if the change is for children that some parent page is referencing (lists of links to children, that kind of thing). This is because the generated pages are cached for speed but at the time of writing Radiant does not flush the cache for certain kinds of page changes. To ensure that edits, additions or removals are visible on the live site, click on the Clear Page Cache button underneath the list of pages. This will of course cause a temporary performance hit as the cache must be rebuilt when pages are next fetched.
+%p An optimisation feature of Radiant is the page cache, which stops it having to rebuild pages from scratch each time they are requested. However, when you edit pages the cache will be cleared and each page will generate it's cache file on the next request to the website.
 - render_region :regions do |regions|
   - regions.regions_introduction do
     %h2 Regions
