@@ -2,6 +2,7 @@ class Admin::HelpController < ApplicationController
   include ActiveSupport::CoreExtensions::String::Inflections
   
   def index
+    @template_name = 'index'
     @role = 'all'
     @docs = HelpDoc.find_for(:all)
     @file_not_found_page = Page.find(:first, :conditions => {:class_name => 'FileNotFoundPage'})
@@ -11,13 +12,18 @@ class Admin::HelpController < ApplicationController
   end
   
   def role
+    @template_name = 'role'
     if params[:role].nil?
       @role = 'all'
       flash[:error] = "Sorry. I couldn't find any documentation for your request so you've been redirected to this page."
       redirect_to help_url
       return
     else
-      @role = params[:role]
+      if params[:role] == 'admin' or params[:role] == 'developer'
+        @role = params[:role]
+      else
+        @role = 'other'
+      end
     end
     if File.exists?("#{RAILS_ROOT}/vendor/extensions/help/app/views/admin/help/_#{@role}_index.html.haml")
       @docs = HelpDoc.find_for(@role)
@@ -29,6 +35,7 @@ class Admin::HelpController < ApplicationController
   end
   
   def extension_doc
+    @template_name = 'extension_doc'
     @role = params[:role].nil? ? 'all' : params[:role]
     @docs = HelpDoc.find_for(@role)
     @doc_name = params[:extension_name].titleize
