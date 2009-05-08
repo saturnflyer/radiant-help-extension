@@ -23,6 +23,7 @@ class Admin::HelpController < ApplicationController
         @role = params[:role]
       else
         @role = 'other'
+        @custom_role = params[:role]
       end
     end
     if File.exists?("#{RAILS_ROOT}/vendor/extensions/help/app/views/admin/help/_#{@role}_index.html.haml")

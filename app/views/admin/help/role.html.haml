@@ -6,11 +6,10 @@
 .Help
   = render :partial => 'help_nav'
   .MainTopics
-    %h1= "#{@role.titleize} Help"
+    %h1= "#{(@custom_role || @role).titleize} Help"
     = render :partial => "#{@role}_index"
   .Extras 
     - render_region :extras do |extras|
-      %h2 This does not show up for some very strange reason.
       - extras.render_region :extension_docs_list 
-      = extras.render_region :regions do
+      - extras.render_region :regions do
         = render :partial => 'regions'
