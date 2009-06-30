@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Admin::HelpController do
-  # use Radiant scenarios
-  scenario :users
+  # use Radiant datasets
+  dataset :users
   
   before(:each) do
     login_as :existing
@@ -27,7 +27,7 @@ describe Admin::HelpController do
     end
     
     it "should get the cms_name from Radiant::Config and assign it to the view" do
-      Radiant::Config.stub!(:[]).with('admin.title').and_return('Test CMS')
+      Radiant::Config.stub!(:[],'admin.title').and_return('Test CMS')
       get :index
       assigns[:cms_name].should == 'Test CMS'
     end
@@ -60,6 +60,9 @@ describe Admin::HelpController do
     end
     
     it "should set the role to 'all' if none is present in the params and assign it to the view" do
+      @test_path = '/path'
+      HelpDoc.stub!(:find_for).and_return([@test_path])
+      File.stub!(:read).and_return('') # can't read a non-existant path
       get :extension_doc, :extension_name => 'help'
       assigns[:role].should == 'all'
     end
@@ -67,6 +70,7 @@ describe Admin::HelpController do
     it "should find all HelpDocs for the given role and assign them to the view" do
       @doc1 = "/path/to/test1/HELP_admin.rdoc"
       @doc2 = "/path/to/test2/HELP_admin.rdoc"
+      File.stub!(:read).and_return('') # can't read a non-existant path
       HelpDoc.should_receive(:find_for).with("admin").and_return([@doc1,@doc2])
       HelpDoc.stub!(:find_for).with("admin","test1").and_return([@doc1])
       get :extension_doc, :extension_name => 'test1', :role => 'admin'
@@ -81,10 +85,11 @@ describe Admin::HelpController do
     it "should find the HelpDoc for the given role and extension_name" do
       @doc1 = "/path/to/test1/HELP_developer.rdoc"
       @doc2 = "/path/to/test2/HELP_developer.rdoc"
+      File.stub!(:read).and_return('') # can't read a non-existant path
       HelpDoc.stub!(:find_for).with("developer").and_return([@doc1,@doc2])
       HelpDoc.should_receive(:find_for).with("developer","test1").and_return([@doc1])
       get :extension_doc, :extension_name => 'test1', :role => 'developer'
-      assigns[:doc].should == @doc1
+      assigns[:doc_path].should == @doc1
     end
   end
   
@@ -99,11 +104,6 @@ describe Admin::HelpController do
     
     it "should redirect to the help index if given no role" do
       get :role
-      response.should redirect_to(:action => 'index')
-    end
-    
-    it "should redirect to the help index if information for the given role is not found" do
-      get :role, :role => 'imaginary'
       response.should redirect_to(:action => 'index')
     end
   end
