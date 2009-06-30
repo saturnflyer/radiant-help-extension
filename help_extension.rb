@@ -1,5 +1,5 @@
 # Uncomment this if you reference any of your controllers in activate
-require_dependency 'application'
+require_dependency 'application_controller'
 # You'll need this if you are going to add regions into your extension interface.
 require 'ostruct'
 # These are needed for parsing the HELP.rdoc files
