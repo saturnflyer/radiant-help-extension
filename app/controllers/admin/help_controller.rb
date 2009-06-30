@@ -1,8 +1,8 @@
 class Admin::HelpController < ApplicationController
   include ActiveSupport::CoreExtensions::String::Inflections
+  before_filter :set_template_name, :except => :index # for non-standard action names
   
   def index
-    @template_name = 'index'
     @role = 'all'
     @docs = HelpDoc.find_for(:all)
     @file_not_found_page = Page.find(:first, :conditions => {:class_name => 'FileNotFoundPage'})
@@ -12,7 +12,6 @@ class Admin::HelpController < ApplicationController
   end
   
   def role
-    @template_name = 'role'
     if params[:role].nil?
       @role = 'all'
       flash[:error] = "Sorry. I couldn't find any documentation for your request so you've been redirected to this page."
@@ -36,11 +35,16 @@ class Admin::HelpController < ApplicationController
   end
   
   def extension_doc
-    @template_name = 'extension_doc'
     @role = params[:role].nil? ? 'all' : params[:role]
     @docs = HelpDoc.find_for(@role)
     @doc_name = params[:extension_name].titleize
     @doc_path = HelpDoc.find_for(@role,params[:extension_name]).first
     @doc = HelpDoc.formatted_contents_from(@doc_path)
+  end
+  
+  private
+  
+  def set_template_name
+    @template_name = self.action_name
   end
 end
