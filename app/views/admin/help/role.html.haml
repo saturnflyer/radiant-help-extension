@@ -4,12 +4,9 @@
   = render :partial => 'scripts.js.erb'
 
 .Help
-  = render :partial => 'help_nav'
   .MainTopics
     %h1= "#{(@custom_role || @role).titleize} Help"
     = render :partial => "#{@role}_index"
   .Extras 
     - render_region :extras do |extras|
       - extras.render_region :extension_docs_list 
-      - extras.render_region :regions do
-        = render :partial => 'regions'

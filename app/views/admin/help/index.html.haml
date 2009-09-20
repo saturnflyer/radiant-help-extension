@@ -4,11 +4,11 @@
   = render :partial => 'scripts.js.erb'
 
 .Help
-  = render :partial => 'help_nav'
   .MainTopics
     %h1= @cms_name + " Help"
     - render_region :main do |main|
-      - main.render_region :introduction
+      - main.introduction do
+        %p Use this reference to help guide your way through editing your website.
       - main.render_region :organizing
       - main.render_region :editing
   .Extras

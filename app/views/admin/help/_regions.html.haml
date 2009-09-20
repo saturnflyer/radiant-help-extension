@@ -1,5 +1,5 @@
 .Regions
-  %h2 Radiant Regions
+  %h2 Current Regions
   %p Below is a list of editable regions from your installation of the application interface
   - admin.instance_variables.sort.each do |reg|
     .ui_region
@@ -26,5 +26,10 @@
           %ul
             - region_instance.each do |reg|
               %li
-                %h4= reg.name
-                %p= "Visibility: #{reg.visibility.to_sentence} (#{reg.url})"
+                %h4
+                  = reg.name
+                  = "(visible to #{reg.visibility.join(', ')})"
+                - reg.each do |r|
+                  %p
+                    = link_to r.proper_name, r.url
+                    = "(#{r.url})"

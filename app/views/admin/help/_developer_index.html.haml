@@ -1,15 +1,5 @@
 %h2 Caching
 %p An optimisation feature of Radiant is the page cache, which stops it having to rebuild pages from scratch each time they are requested. However, when you edit pages the cache will be cleared and each page will generate it's cache file on the next request to the website.
-- render_region :regions do |regions|
-  - regions.regions_introduction do
-    %h2 Regions
-    %p Listed below are the main regions that may be altered with 'partial' injection. You may inject partials into the interface by adding code such this into your extension's activate method:
-    %pre admin.help.index.add :main, "client_welcome", :before => "introduction"
-    %ul
-      %li "admin.help.index" refers to the main help page (the help index) and ".add" is called to add information to the section provided in the next argument. 
-      %li ":main" is the argument that specifies which section will receive your partial. 
-      %li "client_welcome" is the partial that you want to add and should be located in your extension directory app/views/admin/help/_client_welcome.html.haml
-      %li :before => "introduction" will place your partial before the introduction region (or you could do :after). This is optional, and if left out, your partial will be appended to the ":main" section.
 %h2 Radiant Tags
 %p Now the interesting bit – the tags you can use in your layouts, snippets and page bodies to pull all the bits of your site together. This list and the description of the tags is taken from the Radiant source file app/models/page_context.rb if you want to look at the underlying implementation or check for changes if you think the documentation below may be inaccurate.
 %p Tags can only be used in page, layout or snippet content, not in names or page titles.

@@ -14,15 +14,23 @@ class HelpExtension < Radiant::Extension
   # These routes are added to the radiant routes file and works just like any rails routes.
   define_routes do |map|
     map.with_options :controller => 'admin/help', :conditions => {:method => :get} do |help|
-      help.help_role 'admin/role_help/:role', :action => 'role', :role => nil
-      help.help_extension_doc 'admin/extension_help/:extension_name/:role', :action => 'extension_doc', :role => 'all'
+      help.developing 'admin/help/developing', :action => 'developing'
+      help.help_role 'admin/help/role/:role', :action => 'role', :role => nil
+      help.help_extension_doc 'admin/help/extension/:extension_name/:role', :action => 'extension_doc', :role => 'all'
       help.help 'admin/help', :action => 'index'
     end
   end
   
   def activate
     # This adds a tab to the interface after the Layouts tab, and allows all users to access it.
-    admin.tabs.add "Help", "/admin/help", :after => "Layouts", :visibility => [:all]
+    admin.nav << admin.nav_tab(:help, 'Help', [:all])
+    admin.nav['help'] << admin.nav_item(:editing, 'Editing', '/admin/help')
+    admin.nav['help'] << admin.nav_item(:designing, 'Designing', '/admin/help/role/developer')
+    admin.nav['help'] << admin.nav_item(:administering, 'Administering', '/admin/help/role/admin')
+    admin.nav['help'] << admin.nav_item(:developing, 'Developing', '/admin/help/developing')
+    admin.nav['help'] << admin.nav_item(:extending, 'Extending', '/admin/help/extension')
+    # The old way of doing it: it now adds a NavSubItem to the "Content" NavTab (e.g. in line with "Pages")
+    # admin.tabs.add "Help", "/admin/help", :after => "Layouts", :visibility => [:all]
     
     # This adds information to the Radiant interface. In this extension, we're dealing with "help" views
     # so :help is an attr_accessor. If you're creating an extension for tracking moons and stars, you might
@@ -74,11 +82,14 @@ class HelpExtension < Radiant::Extension
         index.extras.concat %w{extension_docs_list}
       end
       help.role = Radiant::AdminUI::RegionSet.new do |role|
-        role.extras.concat %w{extension_docs_list regions}
+        role.extras.concat %w{extension_docs_list}
         role.regions.concat %w{regions_introduction}
       end
       help.extension_doc = Radiant::AdminUI::RegionSet.new do |extension_doc|
         extension_doc.extras.concat %w{extension_docs_list}
+      end
+      help.developing = Radiant::AdminUI::RegionSet.new do |developing|
+        developing.regions.concat %w{regions_introduction regions_map}
       end
     end
   end
