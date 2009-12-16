@@ -23,12 +23,13 @@ class HelpExtension < Radiant::Extension
   
   def activate
     # This adds a tab to the interface after the Layouts tab, and allows all users to access it.
-    admin.nav << admin.nav_tab(:help, 'Help', [:all])
-    admin.nav['help'] << admin.nav_item(:editing, 'Editing', '/admin/help')
-    admin.nav['help'] << admin.nav_item(:designing, 'Designing', '/admin/help/role/developer')
-    admin.nav['help'] << admin.nav_item(:administering, 'Administering', '/admin/help/role/admin')
-    admin.nav['help'] << admin.nav_item(:developing, 'Developing', '/admin/help/developing')
-    admin.nav['help'] << admin.nav_item(:extending, 'Extending', '/admin/help/extension')
+    tab 'Help' do
+      add_item('Editing', '/admin/help')
+      add_item('Designing', '/admin/help/role/developer')
+      add_item('Administering', '/admin/help/role/admin')
+      add_item('Developing', '/admin/help/developing')
+      add_item('Extending', '/admin/help/extension')
+    end
     # The old way of doing it: it now adds a NavSubItem to the "Content" NavTab (e.g. in line with "Pages")
     # admin.tabs.add "Help", "/admin/help", :after => "Layouts", :visibility => [:all]
     
