@@ -20,7 +20,7 @@
     %p The filter that you select is used to process the text that you enter. That means that you don't need to write HTML for it to show up properly on your website. 
     %p 
       The filters provided for you are:
-      = @filters.collect(&:filter_name).to_sentence(:connector => 'and', :skip_last_comma => true)
+      = @filters.collect(&:filter_name).to_sentence(:words_connector => ', ', :last_word_connector => ', and ')
     %p To get more information about these text filters:
     %ol
       %li go to a page edit screen and select a filter
@@ -32,7 +32,7 @@
   - available_tags.available_tags_basics do
     %p The typical user won't need to worry much about Tags, but you have the flexibility to display your website content in many ways. These Tags are commonly used by admins and developers. Here's a quick and limited example of what can be done:
     %pre
-      &== <r:find url="/about"><r:content part="contact" /></r:find>
+      = h %q{<r:find url="/about"><r:content part="contact" /></r:find>}
     %p That example finds the page with "about" for the Slug, and outputs the content of the "contact" part.
     %p Much more can be done, but these Tags should be used with caution if you are unfamiliar with them.
 %h3 Layout
@@ -40,7 +40,7 @@
   - layout.layout_basics do
     %p 
       Different Layouts may be created for your website. For a small site you may have only one, or for a large site there may be more options. The Layouts created for your site are:
-      = @layouts.collect(&:name).to_sentence(:connector => 'and', :skip_last_comma => true)
+      = @layouts.collect(&:name).to_sentence(:words_connector => ', ', :last_word_connector => ', and ')
     %p Layouts determine how your content will be displayed. Typically a Layout is created for the Home page and all of its child pages inherit that layout from it. It's likely that you don't need to make any changes to this setting on the pages that you edit, but talk to the administrator or designer of your site to find out what layout to choose.
 %h3 Page Type
 - render_region :page_type do |page_type|

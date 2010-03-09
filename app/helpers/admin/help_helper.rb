@@ -11,8 +11,8 @@ module Admin::HelpHelper
     yield if admin?
   end
   
-  def developer_help(&block)
-    yield if developer?
+  def designer_help(&block)
+    yield if designer?
   end
   
   def doc_extension_dir(doc)

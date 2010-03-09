@@ -5,8 +5,8 @@
   
 .Help
   .MainTopics
-    - render_region :regions do |regions|
-      = regions.regions_introduction do
+    - render_region :regions do |shard|
+      - shard.regions_introduction do
         %h2 Altering Regions
         %p Listed below are the main regions that may be altered with 'partial' injection. You may inject partials into the interface by adding code such this into your extension's activate method:
         %pre admin.help.index.add :main, "client_welcome", :before => "introduction"
@@ -15,5 +15,5 @@
           %li ":main" is the argument that specifies which section will receive your partial. 
           %li "client_welcome" is the partial that you want to add and should be located in your extension directory app/views/admin/help/_client_welcome.html.haml
           %li :before => "introduction" will place your partial before the introduction region (or you could do :after). This is optional, and if left out, your partial will be appended to the ":main" section.
-      = regions.regions_map do
+      - shard.regions_map do
         = render 'regions'

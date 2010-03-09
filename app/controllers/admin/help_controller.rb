@@ -23,7 +23,7 @@ class Admin::HelpController < ApplicationController
       redirect_to help_url
       return
     else
-      if params[:role] == 'admin' or params[:role] == 'developer'
+      if params[:role] == 'admin' or params[:role] == 'designer'
         @role = params[:role]
       else
         @role = 'other'

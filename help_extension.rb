@@ -25,12 +25,14 @@ class HelpExtension < Radiant::Extension
     # This adds a tab to the interface after the Layouts tab, and allows all users to access it.
     tab 'Help' do
       add_item('Editing', '/admin/help')
-      add_item('Designing', '/admin/help/role/developer')
+      add_item('Designing', '/admin/help/role/designer')
       add_item('Administering', '/admin/help/role/admin')
-      add_item('Developing', '/admin/help/developing')
-      add_item('Extending', '/admin/help/extension')
+      if Rails.env.development?
+        add_item('Developing', '/admin/help/developing')
+      end
+      add_item('Extensions', '/admin/help/extension')
     end
-    # The old way of doing it: it now adds a NavSubItem to the "Content" NavTab (e.g. in line with "Pages")
+    # The old way of doing it prior to Radiant 0.9: it now adds a NavSubItem to the "Content" NavTab (e.g. in line with "Pages")
     # admin.tabs.add "Help", "/admin/help", :after => "Layouts", :visibility => [:all]
     
     # This adds information to the Radiant interface. In this extension, we're dealing with "help" views
