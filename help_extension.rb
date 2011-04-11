@@ -9,7 +9,7 @@ require 'rdoc/markup/simple_markup/to_html'
 class HelpExtension < Radiant::Extension
   version "1.0"
   description "Help Documentation for Radiant CMS"
-  url "http://saturnflyer.com/"
+  url "https://github.com/saturnflyer/radiant-help-extension"
   
   def activate
     # This adds a tab to the interface after the Layouts tab, and allows all users to access it.
@@ -54,11 +54,7 @@ class HelpExtension < Radiant::Extension
       helper Admin::HelpHelper
     }
   end
-  
-  def deactivate
-    # This never happens
-  end
-  
+
   private
   
   # This is where we define all of the regions to be used in the views and partials

@@ -10,6 +10,6 @@
 %code
   &== <r:children:each offset="2">
 %p Tags are created to act as containers, page content, attributes, conditional elements and miscellaneous items.
-%h2 All Avaliable Tags
+%h2 All Available Tags
 - all_tags.sort.each do |tag_name,details|
   = render :partial => 'tag_reference', :locals => {:tag_name => tag_name, :description => details[:description], :classes => details[:classes]} 
