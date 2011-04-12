@@ -1,5 +1,6 @@
-.tag-description
-  %h4= "&lt;r:#{tag_name} /&gt;"
-  %div= description
-  %p= "Available on #{classes.map{|c| c.titleize.gsub(/ Page$/, '')}.sort.to_sentence}."
-  .Additions= render_region tag_name
+.reference
+  .tag_description
+    %h4= "&lt;r:#{tag_name} /&gt;"
+    %div= description
+    %p= "Available on #{classes.map{|c| c.titleize.gsub(/ Page$/, '')}.sort.to_sentence}."
+    .Additions= render_region tag_name

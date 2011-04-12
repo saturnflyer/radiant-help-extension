@@ -11,5 +11,7 @@
   &== <r:children:each offset="2">
 %p Tags are created to act as containers, page content, attributes, conditional elements and miscellaneous items.
 %h2 All Available Tags
-- all_tags.sort.each do |tag_name,details|
-  = render :partial => 'tag_reference', :locals => {:tag_name => tag_name, :description => details[:description], :classes => details[:classes]} 
+.popup
+  - all_tags.sort.each do |tag_name,details|
+    - desc = RedCloth.new(Radiant::Taggable::Util.strip_leading_whitespace(details[:description])).to_html
+    = render :partial => 'tag_reference', :locals => {:tag_name => tag_name, :description => desc, :classes => details[:classes]} 
