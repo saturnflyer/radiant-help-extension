@@ -31,12 +31,7 @@ class HelpDoc
   end
   
   def self.parsed_markdown(doc_path)
-    text = File.read(doc_path)
-    if defined? RDiscount
-      RDiscount.new(text, :smart).to_html
-    else
-      RubyPants.new(BlueCloth.new(text).to_html).to_html
-    end
+    MarkdownFilter.filter(File.read(doc_path))
   end
   
   def self.parsed_textile(doc_path)
