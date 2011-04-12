@@ -78,12 +78,12 @@ help for non-existent role in **markdown**
 
     it "should return Markdown formatted contents of a given extension doc ending in '.markdown'" do
       test_doc = HelpDoc.find_for(:admin, @test_ext_name).first
-      HelpDoc.formatted_contents_from(test_doc).should == "<h2>Test</h2>\n\n<p>help for admins in <strong>markdown</strong></p>\n"
+      HelpDoc.formatted_contents_from(test_doc).should == "<h2>Test</h2>\n<p>help for admins in <strong>markdown</strong></p>\n"
     end
 
     it "should return Markdown formatted contents of a given extension doc ending in '.md'" do
       test_doc = HelpDoc.find_for(:imaginary, @test_ext_name).first
-      HelpDoc.formatted_contents_from(test_doc).should == "<h2>Test</h2>\n\n<p>help for non-existent role in <strong>markdown</strong></p>\n"
+      HelpDoc.formatted_contents_from(test_doc).should == "<h2>Test</h2>\n<p>help for non-existent role in <strong>markdown</strong></p>\n"
     end
 
     it "should return Textile formatted contents of a given extension doc ending in '.textile'" do
@@ -100,7 +100,7 @@ help for non-existent role in **markdown**
   
   it "should call parsed_markdown and return HTML from Markdown formatted text" do
     test_doc = HelpDoc.find_for(:admin, @test_ext_name).first
-    HelpDoc.parsed_markdown(test_doc).should == "<h2>Test</h2>\n\n<p>help for admins in <strong>markdown</strong></p>\n"
+    HelpDoc.parsed_markdown(test_doc).should == "<h2>Test</h2>\n<p>help for admins in <strong>markdown</strong></p>\n"
   end
   
   it "should call parsed_textile and return HTML from Textile formatted text" do
