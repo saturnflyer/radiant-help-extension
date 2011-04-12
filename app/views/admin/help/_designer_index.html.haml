@@ -1,15 +1,18 @@
 %h2 Caching
-%p An optimisation feature of Radiant is the page cache, which stops it having to rebuild pages from scratch each time they are requested. However, when you edit pages the cache will be cleared and each page will generate it's cache file on the next request to the website.
+%p An optimization feature of Radiant is the page cache, which stops it having to rebuild pages from scratch each time they are requested. However, when you edit pages the cache will be cleared and each page will generate its cache file on the next request to the website.
+
 %h2 Radiant Tags
 %p Now the interesting bit – the tags you can use in your layouts, snippets and page bodies to pull all the bits of your site together. This list and the description of the tags is taken from the Radiant source file app/models/page_context.rb if you want to look at the underlying implementation or check for changes if you think the documentation below may be inaccurate.
 %p Tags can only be used in page, layout or snippet content, not in names or page titles.
 %p Where square brackets are used below, they indicate that the thing contained inside is optional. If you decide to include it, don’t include the square brackets – e.g.:
-%code
-  &== <r:children:each [offset="number"]>
+%pre
+  %code= h('<r:children:each [offset="number"]>')
 %p ...indicates that you could use the following in a real layout, snippet or page:
-%code
-  &== <r:children:each offset="2">
-%p Tags are created to act as containers, page content, attributes, conditional elements and miscellaneous items.
+%pre
+  %code= h('<r:children:each offset="2">')
+
+%p Tags are created to act as containers, page content, attributes, conditional elements and miscellaneous items.  The tag reference below is also available as a popup on edit screens.
+
 %h2 All Available Tags
 .popup
   - all_tags.sort.each do |tag_name,details|
