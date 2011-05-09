@@ -5,11 +5,12 @@
 
 .Help
   .MainTopics
-    %h1= "#{@doc_name} Extension"
-    - if @doc_path
-      = @doc
-    - else
-      %p= "Sorry. We couldn't find information about the #{@doc_name} Extension#{' for the role: ' + @role unless @role.to_s == 'all'}."
+    - unless @doc.blank?
+      %h1= "#{@doc_name} Extension"
+      - if @doc_path
+        = @doc
+      - else
+        %p= "Sorry. We couldn't find information about the #{@doc_name} Extension#{' for the role: ' + @role unless @role.to_s == 'all'}."
   .Extras 
     - render_region :extras do |extras|
       - extras.render_region :extension_docs_list 

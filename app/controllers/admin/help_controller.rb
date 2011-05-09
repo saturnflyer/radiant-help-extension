@@ -47,8 +47,13 @@ class Admin::HelpController < ApplicationController
     @template_name = 'extension_doc'
     @role = params[:role].nil? ? 'all' : params[:role]
     @docs = HelpDoc.find_for(@role)
-    @doc_name = params[:extension_name].titleize
-    @doc_path = HelpDoc.find_for(@role,params[:extension_name]).first
+    if params[:extension_name] != 'all'
+      @doc_name = params[:extension_name].titleize
+      @doc_path = HelpDoc.find_for(@role,params[:extension_name]).first
+    else
+      @doc_path = @docs.first
+      @doc_name = @doc_path[/[(\w+)]\/(\w+)\/HELP/, 1].titleize
+    end
     @doc = HelpDoc.formatted_contents_from(@doc_path)
   end
 end
