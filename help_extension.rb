@@ -59,7 +59,7 @@ class HelpExtension < Radiant::Extension
   
   # This is where we define all of the regions to be used in the views and partials
   def load_default_help_regions
-    returning OpenStruct.new do |help|
+    OpenStruct.new.tap do |help|
       help.index = Radiant::AdminUI::RegionSet.new do |index|
         index.main.concat %w{introduction organizing editing}
         index.page_details.concat %w{page_details_introduction slug breadcrumb}
