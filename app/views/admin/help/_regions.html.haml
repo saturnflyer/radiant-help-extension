@@ -3,7 +3,7 @@
   %p Below is a list of editable regions from your installation of the application interface
   - admin.instance_variables.sort.each do |reg|
     .ui_region
-      %h3{:class => 'region_header'}= reg.gsub(/^@/,'').camelize
+      %h3{:class => 'region_header'}= reg.to_s.gsub(/^@/,'').camelize
       - region_instance = admin.send(:instance_variable_get, reg)
       - if region_instance.respond_to?(:marshal_dump)
         - unless region_instance.marshal_dump.blank?
