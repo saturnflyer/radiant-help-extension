@@ -1,3 +1,5 @@
+require 'rdoc'
+
 class HelpDoc
   
   def self.find_for(role_type, extension_dir="**")
@@ -27,7 +29,7 @@ class HelpDoc
   end
   
   def self.parsed_rdoc(doc_path)
-    SM::SimpleMarkup.new.convert(File.read(doc_path), SM::ToHtml.new)
+    RDoc::Markup::ToHtml.new.convert(File.read(doc_path))
   end
   
   def self.parsed_markdown(doc_path)
