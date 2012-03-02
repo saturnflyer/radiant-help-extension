@@ -7,9 +7,9 @@ require 'rdoc/markup/simple_markup'
 require 'rdoc/markup/simple_markup/to_html'
 
 class HelpExtension < Radiant::Extension
-  version "1.0"
-  description "Help Documentation for Radiant CMS"
-  url "https://github.com/saturnflyer/radiant-help-extension"
+  version RadiantHelpExtension::VERSION
+  description RadiantHelpExtension::DESCRIPTION
+  url RadiantHelpExtension::URL
   
   def activate
     # This adds a tab to the interface after the Layouts tab, and allows all users to access it.
