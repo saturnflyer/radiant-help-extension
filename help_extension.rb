@@ -2,9 +2,6 @@
 require_dependency 'application_controller'
 # You'll need this if you are going to add regions into your extension interface.
 require 'ostruct'
-# These are needed for parsing the HELP.rdoc files
-require 'rdoc/markup/simple_markup'
-require 'rdoc/markup/simple_markup/to_html'
 
 class HelpExtension < Radiant::Extension
   version RadiantHelpExtension::VERSION
