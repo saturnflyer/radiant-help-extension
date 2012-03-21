@@ -1,11 +1,11 @@
 class Admin::HelpController < ApplicationController
   include ActiveSupport::CoreExtensions::String::Inflections
-  
+
   # only_allow_access_to :index, :show, :new, :create, :edit, :update, :remove, :destroy,
   #   :when => :admin,
   #   :denied_url => { :controller => 'help', :action => 'index' },
   #   :denied_message => 'You must have administrative privileges to perform this action.'
-  
+
   def index
     @role = 'all'
     @docs = HelpDoc.find_for(:all)
@@ -52,7 +52,7 @@ class Admin::HelpController < ApplicationController
       @doc_path = HelpDoc.find_for(@role,params[:extension_name]).first
     else
       @doc_path = @docs.first
-      @doc_name = @doc_path[/[(\w+)]\/(\w+)\/HELP/, 1].titleize
+      @doc_name = @template.doc_extension_dir(@doc_path).titleize
     end
     @doc = HelpDoc.formatted_contents_from(@doc_path)
   end

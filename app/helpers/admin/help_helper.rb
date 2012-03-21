@@ -16,7 +16,12 @@ module Admin::HelpHelper
   end
   
   def doc_extension_dir(doc)
-    doc[/[(\w+)]\/(\w+)\/HELP/, 1]
+    dir = doc[/[(\w+)]\/(\w+)\/HELP/, 1] # vendored
+    if dir.blank?                        # gemified
+      path_ary = doc.split('/')
+      dir = path_ary[path_ary.count-2].sub('radiant-','').sub(/-extension-.*/,'')
+    end
+    dir
   end
   
   def all_tags
