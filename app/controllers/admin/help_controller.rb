@@ -30,7 +30,7 @@ class Admin::HelpController < ApplicationController
         @custom_role = params[:role]
       end
     end
-    if File.exists?("#{RAILS_ROOT}/vendor/extensions/help/app/views/admin/help/_#{@role}_index.html.haml")
+    if File.exists?("#{HelpExtension.root}/app/views/admin/help/_#{@role}_index.html.haml")
       @docs = HelpDoc.find_for(@role)
     else
       flash[:error] = "Information for the '#{@role}' role could not be found."
