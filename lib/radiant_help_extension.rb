@@ -1,5 +1,5 @@
 module RadiantHelpExtension
-  VERSION     = "1.1.2"
+  VERSION     = "1.1.3"
   SUMMARY     = "Help for Radiant CMS"
   DESCRIPTION = "Help Documentation for Radiant CMS!"
   URL         = "https://github.com/saturnflyer/radiant-help-extension"
