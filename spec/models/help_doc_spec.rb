@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+# require File.dirname(__FILE__) + '/../../spec_helper'
+require 'spec_helper'
 
 describe HelpDoc, "given existing extension docs" do
     
@@ -6,25 +7,22 @@ describe HelpDoc, "given existing extension docs" do
     @test_ext_name = "help_rspec_test#{rand(1000)}"
     @test_dir = "#{RAILS_ROOT}/vendor/extensions/#{@test_ext_name}"
     FileUtils.mkdir(@test_dir)
+    Radiant::ExtensionPath.from_path(@test_dir)
     File.open("#{@test_dir}/HELP", 'wb') {|f| f.write('help for all') }
     File.open("#{@test_dir}/HELP_developer.rdoc", 'wb') {|f| f.write('== Testing
-help for developers in rdoc
-') }
+help for developers in rdoc') }
     File.open("#{@test_dir}/HELP_admin.markdown", 'wb') {|f| f.write('Test
 ----
-help for admins in **markdown**
-') }
+help for admins in **markdown**') }
     File.open("#{@test_dir}/HELP_imaginary.md", 'wb') {|f| f.write('## Test
-help for non-existent role in **markdown**
-') }
-    File.open("#{@test_dir}/HELP_other.textile", 'wb') {|f| f.write('help for _another_ non-existent role in *textile*
-      ') }
+help for non-existent role in **markdown**') }
+    File.open("#{@test_dir}/HELP_other.textile", 'wb') {|f| f.write('help for _another_ non-existent role in *textile*') }
   end
-  
+
   after(:all) do
     FileUtils.remove_dir(@test_dir)
   end
-  
+
   describe "calling find_for" do
     
     it "should fail to find extension docs with no given role type" do
@@ -68,22 +66,22 @@ help for non-existent role in **markdown**
   
     it "should return formatted contents of a given extension doc in RDoc formatting by default" do
       test_doc = HelpDoc.find_for(:all, @test_ext_name).first
-      HelpDoc.formatted_contents_from(test_doc).should == "<p>\nhelp for all\n</p>\n"
+      HelpDoc.formatted_contents_from(test_doc).should == "\n<p>help for all</p>\n"
     end
 
     it "should return RDoc formatted contents of a given extension doc ending in '.rdoc'" do
       test_doc = HelpDoc.find_for(:developer, @test_ext_name).first
-      HelpDoc.formatted_contents_from(test_doc).should == "<h2>Testing</h2>\n<p>\nhelp for developers in rdoc\n</p>\n"
+      HelpDoc.formatted_contents_from(test_doc).should == "\n<h2 id=\"label-Testing\">Testing</h2>\n\n<p>help for developers in rdoc</p>\n"
     end
 
     it "should return Markdown formatted contents of a given extension doc ending in '.markdown'" do
       test_doc = HelpDoc.find_for(:admin, @test_ext_name).first
-      HelpDoc.formatted_contents_from(test_doc).should == "<h2>Test</h2>\n<p>help for admins in <strong>markdown</strong></p>\n"
+      HelpDoc.formatted_contents_from(test_doc).should == "<h2>Test</h2>\n\n<p>help for admins in <strong>markdown</strong></p>"
     end
 
     it "should return Markdown formatted contents of a given extension doc ending in '.md'" do
       test_doc = HelpDoc.find_for(:imaginary, @test_ext_name).first
-      HelpDoc.formatted_contents_from(test_doc).should == "<h2>Test</h2>\n<p>help for non-existent role in <strong>markdown</strong></p>\n"
+      HelpDoc.formatted_contents_from(test_doc).should == "<h2>Test</h2>\n\n<p>help for non-existent role in <strong>markdown</strong></p>"
     end
 
     it "should return Textile formatted contents of a given extension doc ending in '.textile'" do
@@ -95,12 +93,12 @@ help for non-existent role in **markdown**
   
   it "should call parsed_rdoc and return HTML from RDoc formatted text" do
     test_doc = HelpDoc.find_for(:developer, @test_ext_name).first
-    HelpDoc.parsed_rdoc(test_doc).should == "<h2>Testing</h2>\n<p>\nhelp for developers in rdoc\n</p>\n"
+    HelpDoc.parsed_rdoc(test_doc).should == "\n<h2 id=\"label-Testing\">Testing</h2>\n\n<p>help for developers in rdoc</p>\n"
   end
   
   it "should call parsed_markdown and return HTML from Markdown formatted text" do
     test_doc = HelpDoc.find_for(:admin, @test_ext_name).first
-    HelpDoc.parsed_markdown(test_doc).should == "<h2>Test</h2>\n<p>help for admins in <strong>markdown</strong></p>\n"
+    HelpDoc.parsed_markdown(test_doc).should == "<h2>Test</h2>\n\n<p>help for admins in <strong>markdown</strong></p>"
   end
   
   it "should call parsed_textile and return HTML from Textile formatted text" do
