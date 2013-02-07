@@ -9,7 +9,7 @@ cp -r ~/builds/*/radiant-help-extension vendor/extensions/help
 gem install bundler --pre
 echo 'gem "radiant-help-extension", :path => "vendor/extensions/help"' >> Gemfile
 bundle install
-
+bundle list
 case $DB in
   "mysql" )
     mysql -e 'create database radiant_test;'
@@ -19,5 +19,4 @@ case $DB in
     cp spec/ci/database.postgresql.yml config/database.yml;;
 esac
 
-bundle exec rake db:migrate
-bundle exec rake db:migrate:extensions
+bundle exec rake db:migrate db:migrate:extensions
